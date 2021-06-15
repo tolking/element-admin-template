@@ -5,6 +5,8 @@ import {
   ElDropdownMenu,
   ElDropdownItem,
   ElImage,
+  ElCard,
+  ElInput,
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import {
@@ -42,6 +44,8 @@ createApp(App)
   .use(ElDropdownMenu)
   .use(ElDropdownItem)
   .use(ElImage)
+  .use(ElCard)
+  .use(ElInput)
   .use(ProLayout)
   .use(ProBreadcrumb)
   .use(ProTabs)
