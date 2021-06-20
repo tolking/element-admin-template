@@ -18,8 +18,8 @@ import {
   ProCrud,
 } from 'element-pro-components'
 import Components from './components'
-import 'element-plus/lib/theme-chalk/index.css'
-import 'element-pro-components/lib/style.css'
+import 'element-plus/lib/theme-chalk/el-icon.css'
+import 'element-pro-components/lib/styles/vars.css'
 import App from './App.vue'
 import router from './router'
 import type { InstallOptions } from 'element-pro-components'
