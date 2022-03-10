@@ -14,6 +14,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
+    './.eslintrc-auto-import.json',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -22,5 +23,11 @@ module.exports = {
     semi: ['error', 'never'],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+  },
+  globals: {
+    defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
+    withDefaults: 'readonly',
   },
 }

@@ -1,3 +1,3 @@
+export * from './api'
 export * from './config'
 export * from './public'
-export * from './request'

@@ -7,12 +7,12 @@
       <el-dropdown>
         <span class="el-dropdown-link">
           <el-image
-            v-if="userInfo.avatar"
-            :src="userInfo.avatar"
+            v-if="state.avatar"
+            :src="state.avatar"
             class="avatar"
           />
-          {{ userInfo.name }}
-          <i class="el-icon-arrow-down el-icon--right" />
+          {{ state.name }}
+          <icon-arrow-down class="el-icon-arrow-down el-icon--right" />
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -27,29 +27,24 @@
       <pro-tabs />
     </template>
   </pro-layout>
-  <teleport to="title">
-    {{ title }}
-  </teleport>
 </template>
 
-<script setup name="Layout" lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useSessionStorage } from '@vueuse/core'
-import { Token_key, Info_Key } from '../utils'
-import type { UserInfo } from '../types'
+<script setup lang="ts">
+import { useGlobalState } from '../composables/index'
 
 const route = useRoute()
 const router = useRouter()
-const title = computed(() => {
-  return (route.meta.title || '') + ' | 管理后台'
-})
-const token = useSessionStorage<string>(Token_key, '')
-const userInfo = useSessionStorage<UserInfo>(Info_Key, { name: '', avatar: '' })
+const state = useGlobalState()
+const title = computed(() => (route.meta.title || '') + ' | 管理后台')
 
-function loginOut() {
-  token.value = ''
-  userInfo.value = { name: '', avatar: '' }
+useTitle(title)
+
+async function loginOut() {
+  state.value = {
+    name: '',
+    avatar: '',
+    token: '',
+  }
   router.push('/login')
 }
 </script>
@@ -61,5 +56,10 @@ function loginOut() {
   border-radius: 50%;
   overflow: hidden;
   vertical-align: middle;
+}
+.el-icon-arrow-down {
+  width: var(--el-font-size-base);
+  height: var(--el-font-size-base);
+  vertical-align: top;
 }
 </style>
