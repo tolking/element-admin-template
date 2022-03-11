@@ -6,7 +6,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint . --fix --ext .ts,.vue,.js --ignore-pattern \"/dist/\"",
-    "prettier": "prettier --check --write --ignore-unknown \"src/**\""
+    "prettier": "prettier --check --write --ignore-unknown \"src/**\"",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.1",
@@ -27,6 +28,8 @@
     "eslint": "^8.10.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "typescript": "^4.6.2",
     "unplugin-auto-import": "^0.6.1",

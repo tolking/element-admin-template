@@ -28,14 +28,14 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to) => {
-//   const state = useGlobalState()
+router.beforeEach((to) => {
+  const state = useGlobalState()
 
-//   if (!AllowList.includes(to.path) && !state.value.token) {
-//     return '/login'
-//   } else if (to.path === '/login' && state.value.token) {
-//     return ''
-//   }
-// })
+  if (!AllowList.includes(to.path) && !state.value.token) {
+    return '/login'
+  } else if (to.path === '/login' && state.value.token) {
+    return ''
+  }
+})
 
 export default router

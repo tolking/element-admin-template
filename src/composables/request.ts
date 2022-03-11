@@ -1,11 +1,11 @@
 import { stringifyQuery, LocationQueryRaw } from 'vue-router'
 import { createFetch, MaybeRef, UseFetchReturn } from '@vueuse/core'
 import { useGlobalState } from './index'
-import { AuthTokenKey, RequestTimeout } from '../utils/index'
-
-type EventHookOn<T = unknown> = (fn: (param: T) => void) => {
-  off: () => void
-}
+import {
+  RequestAuthKey,
+  RequestWithCookie,
+  RequestTimeout,
+} from '../utils/index'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 const useRequest = createFetch({
@@ -16,9 +16,9 @@ const useRequest = createFetch({
     beforeFetch({ options }) {
       const state = useGlobalState()
 
-      if (state.value.token) {
+      if (RequestAuthKey && state.value.token) {
         options.headers = Object.assign(options.headers || {}, {
-          [AuthTokenKey]: state.value.token,
+          [RequestAuthKey]: state.value.token,
         })
       }
 
@@ -30,9 +30,14 @@ const useRequest = createFetch({
 
       return { data, response }
     },
+    onFetchError({ data, error }) {
+      console.error(error)
+      return { data, error }
+    },
   },
   fetchOptions: {
     mode: 'cors',
+    credentials: RequestWithCookie ? 'include' : 'same-origin',
   },
 })
 
@@ -55,7 +60,6 @@ export function useGet<T = unknown>(
   })
 
   return useRequest<T>(_url).json()
-
 }
 
 /**

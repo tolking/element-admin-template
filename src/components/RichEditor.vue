@@ -51,7 +51,7 @@ function init() {
         [{ color: [] }, { background: [] }],
         ['clean'],
         // [{ 'size': ['small', false, 'large', 'huge'] }],
-        // [{ 'indent': '-1' }, { 'indent': '+1' }],ß
+        // [{ 'indent': '-1' }, { 'indent': '+1' }],
         // [{ 'align': [] }],
         // [{ 'direction': 'rtl' }],
         // ['blockquote', 'code-block'],

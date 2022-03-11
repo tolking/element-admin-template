@@ -1,4 +1,9 @@
-import type { MessageOptions, MessageHandle, ElMessageBoxOptions, MessageBoxData } from 'element-plus'
+import type {
+  MessageOptions,
+  MessageHandle,
+  ElMessageBoxOptions,
+  MessageBoxData,
+} from 'element-plus'
 
 /**
  * 显示提示弹窗
@@ -6,7 +11,7 @@ import type { MessageOptions, MessageHandle, ElMessageBoxOptions, MessageBoxData
  * @param message 提示信息
  * @param option 更多配置
  */
- export function appMessage(
+export function appMessage(
   type: MessageOptions['type'],
   message: MessageOptions['message'],
   option = {} as MessageOptions
@@ -20,7 +25,7 @@ import type { MessageOptions, MessageHandle, ElMessageBoxOptions, MessageBoxData
  * @param title 提示标题
  * @param option 更多配置
  */
- export function appConfirm(
+export function appConfirm(
   message: string,
   title: string,
   option = {} as ElMessageBoxOptions
@@ -32,7 +37,7 @@ import type { MessageOptions, MessageHandle, ElMessageBoxOptions, MessageBoxData
  * 向字符串末尾增加分隔符
  * @param string 字符串
  */
- export function withEndSeparator(string: string): string {
+export function withEndSeparator(string: string): string {
   return /\/$/.test(string) ? string : string + '/'
 }
 

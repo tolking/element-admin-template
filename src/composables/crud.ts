@@ -1,5 +1,12 @@
 import { useGet, usePost, usePut, useDelete } from './index'
-import { appMessage, appConfirm, replaceId, RequestPageKey, RequestLimitkey } from '../utils/index'
+import {
+  appMessage,
+  appConfirm,
+  replaceId,
+  RequestPageKey,
+  RequestLimitkey,
+  RequestLimit,
+} from '../utils/index'
 import type { Ref } from 'vue'
 import type {
   ICrudSearch,
@@ -12,9 +19,9 @@ import type {
 } from 'element-pro-components'
 import type { PagesData } from '../types/index'
 
-type ReqType = 'post' | 'put'
+export type ReqType = 'post' | 'put'
 
-interface FormAttrs<T> {
+export interface UseFormConfig<T> {
   url: MaybeRef<string>
   showTip?: boolean
   suffix?: boolean
@@ -22,24 +29,26 @@ interface FormAttrs<T> {
   transform?: (form: T) => T
 }
 
+export interface UseFormReturn<T, K> {
+  isFetching: Ref<boolean>
+  form: Ref<T>
+  submit: IFormSubmit
+  submitForm: (type?: ReqType) => Promise<Ref<K | null>>
+}
+
 /**
  * 封装表单提交
- * @param url 请求地址
- * @param showTip 显示提示，默认: `true`
- * @param type 提交请求方式 post | put，默认: `post`
- * @param transform 转换表单
+ * @param config.url 请求地址
+ * @param config.showTip 显示提示，默认: `true`
+ * @param config.type 提交请求方式 post | put，默认: `post`
+ * @param config.transform 转换表单
  */
 export function useForm<Form = StringObject, Data = unknown>({
   url,
   transform,
   showTip = true,
   type = 'post',
-}: FormAttrs<Form>): {
-  isFetching: Ref<boolean>
-  form: Ref<Form>
-  submit: IFormSubmit
-  submitForm: (type?: ReqType) => Promise<Ref<Data | null>>
-} {
+}: UseFormConfig<Form>): UseFormReturn<Form, Data> {
   const isFetching = ref(false)
   const form = ref({}) as Ref<Form>
   const payload = computed(() => {
@@ -84,27 +93,29 @@ export function useForm<Form = StringObject, Data = unknown>({
   }
 }
 
-interface DetailAttr {
+export interface UseDetailConfig {
   url: MaybeRef<string>
   id?: MaybeRef<string | number | undefined>
   immediate?: boolean
 }
 
+export interface UseDetailReturn<T> {
+  isFetching: Ref<boolean>
+  detail: Ref<T>
+  loadDetail: () => Promise<void>
+}
+
 /**
  * 封装获取详情
- * @param url 请求地址
- * @param id 请求加载的id
- * @param immediate 是否在修改ID时加载，默认: `true`
+ * @param config.url 请求地址
+ * @param config.id 请求加载的id
+ * @param config.immediate 是否在修改ID时加载，默认: `true`
  */
 export function useDetail<T = UnknownObject>({
   url,
   id,
   immediate = true,
-}: DetailAttr): {
-  isFetching: Ref<boolean>
-  detail: Ref<T>
-  loadDetail: () => Promise<void>
-} {
+}: UseDetailConfig): UseDetailReturn<T> {
   const detail = ref({} as T) as Ref<T>
   const _url = computed(() => replaceId(unref(url), unref(id)))
   const { isFetching, data, execute } = useGet<T>(_url)
@@ -127,49 +138,36 @@ export function useDetail<T = UnknownObject>({
   }
 }
 
-/** 统一分页 */
-export function usePagination(): {
-  page: Ref<number>
-  limit: Ref<number>
-  total: Ref<number>
-} {
-  const page = ref(1)
-  const limit = ref(20)
-  const total = ref(0)
-
-  return {
-    page,
-    limit,
-    total,
-  }
-}
-
-interface ListAttr<T> {
+export interface UseListConfig<T> {
   url: MaybeRef<string>
   transform?: (form: T) => T
   immediate?: boolean
 }
 
+export interface UseListReturn<T, K> {
+  query: Ref<K>
+  isFetching: Ref<boolean>
+  page: Ref<number>
+  limit: Ref<number>
+  total: Ref<number>
+  list: Ref<T[]>
+  loadList: () => Promise<void>
+}
+
 /**
  * 封装获取列表
- * @param url 请求地址
- * @param immediate 是否在初始化时加载，默认: `true`
- * @param transform 转换搜索
+ * @param config.url 请求地址
+ * @param config.immediate 是否在初始化时加载，默认: `true`
+ * @param config.transform 转换搜索
  */
 export function useList<Item = StringObject, Serach = Item>({
   url,
   transform,
   immediate = true,
-}: ListAttr<Serach>): {
-  query: Ref<Serach>
-  isFetching: Ref<boolean>
-  page: Ref<number>
-  limit: Ref<number>
-  total: Ref<number>
-  list: Ref<Item[]>
-  loadList: () => Promise<void>
-} {
-  const { page, limit, total } = usePagination()
+}: UseListConfig<Serach>): UseListReturn<Item, Serach> {
+  const page = ref(1)
+  const limit = ref(RequestLimit)
+  const total = ref(0)
   const query = ref<Serach>({} as Serach) as Ref<Serach>
   const payload = computed(() => {
     const _query = transform ? transform(unref(query)) : query.value
@@ -205,27 +203,48 @@ export function useList<Item = StringObject, Serach = Item>({
   }
 }
 
-interface CrudAttr<Form, Serach> {
+export interface UseCrudConfig<T, K> {
   url: MaybeRef<string>
   immediate?: boolean
   showTip?: boolean
   syncDetail?: boolean
-  transform?: (form: Form) => Form
-  transformQuery?: (form: Serach) => Serach
-  transformDetail?: (form: Form) => Form
+  transform?: (form: T) => T
+  transformQuery?: (form: K) => K
+  transformDetail?: (form: T) => T
+}
+
+export interface UseCrudReturn<T, K, Q, M> {
+  isFetching: Ref<boolean>
+  page: Ref<number>
+  limit: Ref<number>
+  total: Ref<number>
+  list: Ref<T[]>
+  loadList: () => Promise<void>
+  query: Ref<Q>
+  search: ICrudSearch
+  form: Ref<K>
+  beforeOpen: ICrudBeforeOpen<T>
+  submit: ICrudSubmit
+  submitForm: (type?: ReqType) => Promise<Ref<M | null>>
+  deleteRow: (row: T) => void
 }
 
 /**
  * 封装 Crud
- * @param url 请求地址
- * @param immediate 是否在初始化时加载，默认: `true`
- * @param showTip 显示提示，默认: `true`
- * @param syncDetail 是否需要异步加载详情
- * @param transform 转换表单
- * @param transformQuery 转换搜索
- * @param transformDetail 转换详情到表单
+ * @param config.url 请求地址
+ * @param config.immediate 是否在初始化时加载，默认: `true`
+ * @param config.showTip 显示提示，默认: `true`
+ * @param config.syncDetail 是否需要异步加载详情
+ * @param config.transform 转换表单
+ * @param config.transformQuery 转换搜索
+ * @param config.transformDetail 转换详情到表单
  */
- export function useCrud<Item = StringObject, Form = Item, Serach = Item, Data = unknown>({
+export function useCrud<
+  Item = StringObject,
+  Form = Item,
+  Serach = Item,
+  Data = unknown
+>({
   url,
   immediate = true,
   showTip = true,
@@ -233,21 +252,7 @@ interface CrudAttr<Form, Serach> {
   transform,
   transformQuery,
   transformDetail,
-}: CrudAttr<Form, Serach>): {
-  isFetching: Ref<boolean>
-  page: Ref<number>
-  limit: Ref<number>
-  total: Ref<number>
-  list: Ref<Item[]>
-  loadList: () => Promise<void>
-  query: Ref<Serach>
-  search: ICrudSearch
-  form: Ref<Form>
-  beforeOpen: ICrudBeforeOpen<Item>
-  submit: ICrudSubmit
-  submitForm: (type?: ReqType) => Promise<Ref<Data | null>>
-  deleteRow: (row: Item) => void
-} {
+}: UseCrudConfig<Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
   const { query, isFetching, page, limit, total, list, loadList } = useList<
     Item,
     Serach
@@ -309,10 +314,10 @@ interface CrudAttr<Form, Serach> {
         await execute()
 
         if (data.value) {
-          appMessage('success', '删除成功')
+          showTip && appMessage('success', '删除成功')
           loadList()
         } else {
-          appMessage('warning', '删除失败')
+          showTip && appMessage('warning', '删除失败')
         }
       })
       .catch(() => {

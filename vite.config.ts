@@ -39,7 +39,8 @@ const customImports = {
     'isObject',
     'isFunction',
     'isBoolean',
-  ]
+    'isURL',
+  ],
 }
 
 function toAbsolute(path: string): string {
@@ -55,9 +56,7 @@ function ElementProResolver(name: string) {
     return {
       importName: name,
       path: 'element-pro-components',
-      sideEffects: toAbsolute(
-        `element-pro-components/lib/styles/${fileName}`
-      ),
+      sideEffects: toAbsolute(`element-pro-components/lib/styles/${fileName}`),
     }
   }
 }
@@ -89,6 +88,7 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             'modules-vue': ['vue', 'vue-router'],
             'modules-vueuse': ['@vueuse/core'],
+            'modules-quill': ['quill'],
             'modules-element-plus': ['element-plus'],
             'modules-element-pro': ['element-pro-components'],
             'modules-element-icon': ['@element-plus/icons-vue'],
@@ -99,12 +99,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       AutoImport({
-        imports: [
-          'vue',
-          'vue-router',
-          '@vueuse/core',
-          customImports,
-        ],
+        imports: ['vue', 'vue-router', '@vueuse/core', customImports],
         resolvers: [
           ElementPlusResolver(),
           ElementProResolver,
@@ -119,6 +114,6 @@ export default defineConfig(({ mode }) => {
           ElementIconResolver,
         ],
       }),
-    ]
+    ],
   }
 })

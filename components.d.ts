@@ -10,7 +10,6 @@ declare module 'vue' {
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElImage: typeof import('element-plus/es')['ElImage']
-    IconAdd: typeof import('@element-plus/icons-vue')['Add']
     IconArrowDown: typeof import('@element-plus/icons-vue')['ArrowDown']
     IconPlus: typeof import('@element-plus/icons-vue')['Plus']
     ProBreadcrumb: typeof import('element-pro-components')['ProBreadcrumb']
@@ -21,4 +20,4 @@ declare module 'vue' {
   }
 }
 
-export { }
+export {}
