@@ -55,6 +55,7 @@
     "isObject": true,
     "isReadonly": true,
     "isRef": true,
+    "isURL": true,
     "makeDestructurable": true,
     "markRaw": true,
     "nextTick": true,

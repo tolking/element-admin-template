@@ -56,6 +56,7 @@ declare global {
   const isObject: typeof import('element-pro-components')['isObject']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const isURL: typeof import('element-pro-components')['isURL']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
   const nextTick: typeof import('vue')['nextTick']

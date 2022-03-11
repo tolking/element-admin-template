@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
+    "test": "vue-tsc --noEmit",
     "lint": "eslint . --fix --ext .ts,.vue,.js --ignore-pattern \"/dist/\"",
     "prettier": "prettier --check --write --ignore-unknown \"src/**\"",
     "prepare": "husky install"
