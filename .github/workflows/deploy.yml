@@ -17,7 +17,7 @@ jobs:
       - name: Install and Build
         run: |
           npm install
-          vite build --base=/element-admin-template/
+          npm build:template
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.2
