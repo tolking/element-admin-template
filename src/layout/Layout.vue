@@ -60,6 +60,6 @@ async function loginOut() {
 .el-icon-arrow-down {
   width: var(--el-font-size-base);
   height: var(--el-font-size-base);
-  vertical-align: top;
+  vertical-align: middle;
 }
 </style>

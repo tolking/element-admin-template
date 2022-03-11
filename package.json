@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:template": "vite build --base=/element-admin-template/",
     "serve": "vite preview",
     "test": "vue-tsc --noEmit",
     "lint": "eslint . --fix --ext .ts,.vue,.js --ignore-pattern \"/dist/\"",

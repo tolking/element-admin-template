@@ -32,18 +32,27 @@ const columns = defineFormColumns<LoginForm>([
     label: '用户',
     prop: 'name',
     component: markRaw(ElInput),
-    rules: { required: true, message: 'admin', trigger: 'blur' },
+    rules: { required: true, message: '请输入用户名', trigger: 'blur' },
+    props: {
+      clearable: true,
+      prefixIcon: markRaw(IconUser),
+      placeholder: '请输入用户名',
+    },
   },
   {
     label: '密码',
     prop: 'password',
     component: markRaw(ElInput),
     rules: [
-      { required: true, message: 'admin', trigger: 'blur' },
+      { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 5, max: 16, message: '长度 5 到 16 个字符', trigger: 'blur' },
     ],
     props: {
       type: 'password',
+      clearable: true,
+      showPassword: true,
+      prefixIcon: markRaw(IconLock),
+      placeholder: '请输入密码',
     },
   },
 ])

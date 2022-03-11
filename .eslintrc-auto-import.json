@@ -46,6 +46,8 @@
     "h": true,
     "has": true,
     "IconHouse": true,
+    "IconLock": true,
+    "IconUser": true,
     "ignorableWatch": true,
     "inject": true,
     "isArray": true,

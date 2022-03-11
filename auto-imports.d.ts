@@ -47,6 +47,8 @@ declare global {
   const h: typeof import('vue')['h']
   const has: typeof import('element-pro-components')['has']
   const IconHouse: typeof import('@element-plus/icons-vue')['House']
+  const IconLock: typeof import('@element-plus/icons-vue')['Lock']
+  const IconUser: typeof import('@element-plus/icons-vue')['User']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
   const isArray: typeof import('element-pro-components')['isArray']
