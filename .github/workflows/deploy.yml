@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    if: ${{ github.repository_owner == 'toking' }}
+    if: ${{ github.repository_owner == 'tolking' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
