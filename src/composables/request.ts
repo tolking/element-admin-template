@@ -5,7 +5,9 @@ import {
   RequestAuthKey,
   RequestWithCookie,
   RequestTimeout,
+  appMessage,
 } from '../utils/index'
+import router from '../router/index'
 
 const baseUrl = import.meta.env.VITE_BASE_URL
 const useRequest = createFetch({
@@ -16,6 +18,12 @@ const useRequest = createFetch({
     beforeFetch({ options }) {
       const state = useGlobalState()
 
+      // NOTE: 在线 mock api 使用，你不需要下面这段
+      options.headers = Object.assign(options.headers || {}, {
+        'app-token':
+          '$2a$10$oWYgEw/X1hj9BbvejQOud.xFezq5wP8H7NGkVA.4HcChK928Z2nja',
+      })
+
       if (RequestAuthKey && state.value.token) {
         options.headers = Object.assign(options.headers || {}, {
           [RequestAuthKey]: state.value.token,
@@ -25,7 +33,32 @@ const useRequest = createFetch({
       return { options }
     },
     afterFetch({ data, response }) {
-      // TODO: 拦截返回
+      const state = useGlobalState()
+      const status = data.code
+
+      // NOTE: 拦截返回，需要根据具体返回修改
+      if (status === 200) {
+        data = data.data || {}
+      } else if (status === 401) {
+        state.value = {
+          token: '',
+          name: '',
+          avatar: '',
+        }
+        appMessage('warning', '登陆已经过期')
+        setTimeout(() => {
+          router.push('/login')
+        }, 1500)
+        data = null
+      } else if (status === 1000) {
+        console.error(data.message)
+        appMessage('warning', data.message)
+        data = null
+      } else if (status) {
+        console.log('出现未全局拦截错误')
+        data = undefined
+      }
+
       import.meta.env.MODE === 'development' && console.log('result:', data)
 
       return { data, response }
