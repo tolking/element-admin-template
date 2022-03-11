@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useSessionStorage } from '@vueuse/core'
-import { Token_key, Allow_List } from '../utils'
-import type { IRouteRecordRaw } from 'element-pro-components'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useGlobalState } from '../composables/index'
+import { AllowList } from '../utils/index'
 
-const routes: IRouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     component: () => import('../layout/Login.vue'),
@@ -13,7 +12,7 @@ const routes: IRouteRecordRaw[] = [
     path: '/',
     redirect: '/demo/form',
     component: () => import('../layout/Layout.vue'),
-    meta: { title: 'Demo', icon: 'el-icon-house' },
+    meta: { title: 'Demo', icon: markRaw(IconHouse) },
     children: [
       {
         path: '/demo/form',
@@ -30,11 +29,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const token = useSessionStorage<string>(Token_key, '')
+  const state = useGlobalState()
 
-  if (!Allow_List.includes(to.path) && !token.value) {
+  if (!AllowList.includes(to.path) && !state.value.token) {
     return '/login'
-  } else if (to.path === '/login' && token.value) {
+  } else if (to.path === '/login' && state.value.token) {
     return ''
   }
 })

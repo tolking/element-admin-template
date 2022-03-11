@@ -2,16 +2,7 @@
   <div ref="editor" />
 </template>
 
-<script setup name="RichEditor" lang="ts">
-import {
-  defineEmit,
-  defineProps,
-  onMounted,
-  onUnmounted,
-  ref,
-  toRefs,
-  watch,
-} from 'vue'
+<script setup lang="ts">
 import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.bubble.css'
@@ -27,7 +18,7 @@ const props = defineProps({
     default: '请输入文本',
   },
 })
-const emit = defineEmit(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 const { modelValue, placeholder } = toRefs(props)
 const editor = ref<HTMLElement>({} as HTMLElement)
 const quill = ref<Quill>({} as Quill)
@@ -60,7 +51,7 @@ function init() {
         [{ color: [] }, { background: [] }],
         ['clean'],
         // [{ 'size': ['small', false, 'large', 'huge'] }],
-        // [{ 'indent': '-1' }, { 'indent': '+1' }],ß
+        // [{ 'indent': '-1' }, { 'indent': '+1' }],
         // [{ 'align': [] }],
         // [{ 'direction': 'rtl' }],
         // ['blockquote', 'code-block'],

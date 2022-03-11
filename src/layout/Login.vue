@@ -5,75 +5,75 @@
         管理后台
       </h1>
       <pro-form
+        ref="login"
         v-model="form"
         :columns="columns"
         :menu="menu"
+        label-position="top"
         @submit="submit"
       />
     </el-card>
   </div>
-  <teleport to="title">
-    登陆后台
-  </teleport>
 </template>
 
-<script setup name="Login" lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useSessionStorage } from '@vueuse/core'
-import { login, getUserInfo } from '../api'
-import { Token_key, Info_Key } from '../utils'
-import type {
-  IFormColumns,
-  IFormMenuColumns,
-  IFormSubmit,
-} from 'element-pro-components'
-import type { UserForm, UserInfo } from '../types'
-
+<script setup lang="ts">
+import { useGlobalState, useForm } from '../composables/index'
+import { Api } from '../utils/index'
+import type { IFormExpose } from 'element-pro-components'
+import type { LoginForm, ResLogin } from '../types/index'
 
 const router = useRouter()
-const token = useSessionStorage<string>(Token_key, '')
-const userInfo = useSessionStorage<UserInfo>(Info_Key, { name: '', avatar: '' })
-const form = ref<UserForm>({
-  username: 'admin',
-  password: 'admin',
-})
-const columns: IFormColumns<UserForm> = [
+const state = useGlobalState()
+const { enter } = useMagicKeys()
+const { form, submitForm } = useForm<LoginForm, ResLogin>({ url: Api.login })
+const login = ref({} as IFormExpose)
+const columns = defineFormColumns<LoginForm>([
   {
     label: '用户',
-    prop: 'username',
-    component: 'el-input',
+    prop: 'name',
+    component: markRaw(ElInput),
     rules: { required: true, message: 'admin', trigger: 'blur' },
   },
   {
     label: '密码',
     prop: 'password',
-    component: 'el-input',
-    rules: { required: true, message: 'admin', trigger: 'blur' },
+    component: markRaw(ElInput),
+    rules: [
+      { required: true, message: 'admin', trigger: 'blur' },
+      { min: 5, max: 16, message: '长度 5 到 16 个字符', trigger: 'blur' },
+    ],
     props: {
       type: 'password',
     },
   },
-]
-const menu: IFormMenuColumns = {
+])
+const menu = defineFormMenuColumns({
   submitText: '登录',
   reset: false,
-}
-const submit: IFormSubmit = async (done, isValid) => {
+})
+const submit = defineFormSubmit(async (done, isValid) => {
+  await handleSubmit(isValid)
+  done()
+})
+
+useTitle('登陆后台')
+
+watch(enter, async (value) => {
+  if (value) {
+    const isValid = await login.value.validate()
+    await handleSubmit(isValid)
+  }
+})
+
+async function handleSubmit(isValid: boolean) {
   if (isValid) {
-    const res = await login<{ token: string }>(form.value)
+    const res = await submitForm()
 
-    if (res && res.token) {
-      token.value = res.token
-      const info = await getUserInfo<UserInfo>()
-
-      if (info) {
-        userInfo.value = info
-        router.push('/')
-      }
+    if (res.value) {
+      state.value = res.value
+      router.push('/')
     }
   }
-  done()
 }
 </script>
 
