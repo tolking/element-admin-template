@@ -1,6 +1,16 @@
 {
   "name": "element-admin-template",
   "version": "1.0.0",
+  "description": "",
+  "author": "tolking <qw13131wang@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tolking/element-admin-template/issues"
+  },
+  "homepage": "https://github.com/tolking/element-admin-template#readme",
+  "engines": {
+    "node": ">=12.2.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
