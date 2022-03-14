@@ -4,16 +4,20 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElImage: typeof import('element-plus/es')['ElImage']
+    ElTag: typeof import('element-plus/es')['ElTag']
     IconArrowDown: typeof import('@element-plus/icons-vue')['ArrowDown']
+    Loading: typeof import('element-plus/es')['ElLoadingDirective']
     ProBreadcrumb: typeof import('element-pro-components')['ProBreadcrumb']
     ProForm: typeof import('element-pro-components')['ProForm']
     ProLayout: typeof import('element-pro-components')['ProLayout']
+    ProTable: typeof import('element-pro-components')['ProTable']
     ProTabs: typeof import('element-pro-components')['ProTabs']
     RichEditor: typeof import('./src/components/RichEditor.vue')['default']
   }

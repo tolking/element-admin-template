@@ -101,7 +101,7 @@ export interface UseDetailConfig {
 
 export interface UseDetailReturn<T> {
   isFetching: Ref<boolean>
-  detail: Ref<T>
+  detail: Ref<T | null>
   loadDetail: () => Promise<void>
 }
 
@@ -116,7 +116,6 @@ export function useDetail<T = UnknownObject>({
   id,
   immediate = true,
 }: UseDetailConfig): UseDetailReturn<T> {
-  const detail = ref({} as T) as Ref<T>
   const _url = computed(() => replaceId(unref(url), unref(id)))
   const { isFetching, data, execute } = useGet<T>(_url)
 
@@ -125,15 +124,11 @@ export function useDetail<T = UnknownObject>({
   async function loadDetail() {
     if (isFetching.value) return
     await execute()
-
-    if (data.value) {
-      detail.value = data.value
-    }
   }
 
   return {
     isFetching,
-    detail,
+    detail: data,
     loadDetail,
   }
 }

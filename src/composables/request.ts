@@ -65,6 +65,7 @@ const useRequest = createFetch({
     },
     onFetchError({ data, error }) {
       console.error(error)
+      data = undefined
       return { data, error }
     },
   },

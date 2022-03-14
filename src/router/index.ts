@@ -19,6 +19,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/demo/Form.vue'),
         meta: { title: 'Form' },
       },
+      {
+        path: '/demo/table',
+        component: () => import('../views/demo/Table.vue'),
+        meta: { title: 'Table' },
+      },
     ],
   },
 ]
