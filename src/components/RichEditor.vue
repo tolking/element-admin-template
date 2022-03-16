@@ -72,3 +72,17 @@ function init() {
   })
 }
 </script>
+
+<style>
+.ql-toolbar {
+  width: 100%;
+}
+.ql-container {
+  width: 100%;
+  height: auto;
+}
+.ql-container .ql-editor {
+  min-height: 150px;
+  resize: vertical;
+}
+</style>

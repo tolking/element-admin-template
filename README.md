@@ -12,6 +12,7 @@
 - [element-plus](https://github.com/element-plus/element-plus) 使用 element-plus 组件及其图标库
 - [element-pro-components](https://github.com/tolking/element-pro-components) 使用 element-pro-components 快速构建后台界面
 - [quill](https://github.com/quilljs/quill) 基于 Quill 的富文本编辑器
+- [virapi](https://virapi.com) 由 virapi 提供的在线 Mock 接口
 - [vite](https://github.com/vitejs/vite) 基于 Vite 开发和打包
 - [vue-tsc](https://github.com/johnsoncodehk/volar) 提供类型检查
 - [typescript](https://github.com/Microsoft/TypeScript) 全局基于 TypeScript 开发
@@ -27,9 +28,24 @@
 - 使用可组合函数，方便复用
 - 数据化驱动界面，基于 element-pro-components 通过配置直接生成表单和表格等
 
+## 下载
+
+选择下面一种方式快速开始
+
+- 通过克隆
+
+```
+git clone https://github.com/tolking/element-admin-template.git
+```
+
+- [直接下载压缩包](https://github.com/tolking/element-admin-template/archive/refs/heads/main.zip)
+
+- [快速创建模版项目](https://github.com/tolking/element-admin-template/generate)
+
+- 如果想参与贡献推荐 Fork
+
 ## 使用
 
-- 克隆 / 下载 / Fork 项目到本地
 - 初始化依赖，推荐使用 pnpm
 
 ```sh
