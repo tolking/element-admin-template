@@ -9,7 +9,6 @@ import {
 } from '../utils/index'
 import type { Ref } from 'vue'
 import type {
-  ICrudSearch,
   ICrudSubmit,
   ICrudBeforeOpen,
   IFormSubmit,
@@ -19,13 +18,17 @@ import type {
 } from 'element-pro-components'
 import type { PagesData } from '../types/index'
 
-export type ReqType = 'post' | 'put'
+interface CommonConfig {
+  url: MaybeRef<string>
+  immediate?: boolean
+}
+
+export type ReqFormType = 'post' | 'put'
 
 export interface UseFormConfig<T> {
   url: MaybeRef<string>
   showTip?: boolean
-  suffix?: boolean
-  type?: ReqType
+  type?: ReqFormType
   transform?: (form: T) => T
 }
 
@@ -33,7 +36,7 @@ export interface UseFormReturn<T, K> {
   isFetching: Ref<boolean>
   form: Ref<T>
   submit: IFormSubmit
-  submitForm: (type?: ReqType) => Promise<Ref<K | null>>
+  submitForm: (type?: ReqFormType) => Promise<Ref<K | null>>
 }
 
 /**
@@ -93,10 +96,8 @@ export function useForm<Form = StringObject, Data = unknown>({
   }
 }
 
-export interface UseDetailConfig {
-  url: MaybeRef<string>
+export interface UseDetailConfig extends CommonConfig {
   id?: MaybeRef<string | number | undefined>
-  immediate?: boolean
 }
 
 export interface UseDetailReturn<T> {
@@ -133,10 +134,8 @@ export function useDetail<T = UnknownObject>({
   }
 }
 
-export interface UseListConfig<T> {
-  url: MaybeRef<string>
+export interface UseListConfig<T> extends CommonConfig {
   transform?: (form: T) => T
-  immediate?: boolean
 }
 
 export interface UseListReturn<T, K> {
@@ -146,6 +145,7 @@ export interface UseListReturn<T, K> {
   limit: Ref<number>
   total: Ref<number>
   list: Ref<T[]>
+  search: IFormSubmit
   loadList: () => Promise<void>
 }
 
@@ -174,6 +174,13 @@ export function useList<Item = StringObject, Serach = Item>({
   })
   const { isFetching, data, execute } = useGet<PagesData<Item>>(url, payload)
   const list = ref<Item[]>([]) as Ref<Item[]>
+  const search: IFormSubmit = async (done, isValid) => {
+    if (isValid) {
+      page.value = 1
+      await loadList()
+    }
+    done()
+  }
 
   immediate && loadList()
 
@@ -194,33 +201,24 @@ export function useList<Item = StringObject, Serach = Item>({
     limit,
     total,
     list,
+    search,
     loadList,
   }
 }
 
-export interface UseCrudConfig<T, K> {
-  url: MaybeRef<string>
-  immediate?: boolean
-  showTip?: boolean
+export interface UseCrudConfig<T, K>
+  extends CommonConfig,
+    Pick<UseFormConfig<T>, 'showTip' | 'transform'> {
   syncDetail?: boolean
-  transform?: (form: T) => T
   transformQuery?: (form: K) => K
   transformDetail?: (form: T) => T
 }
 
-export interface UseCrudReturn<T, K, Q, M> {
-  isFetching: Ref<boolean>
-  page: Ref<number>
-  limit: Ref<number>
-  total: Ref<number>
-  list: Ref<T[]>
-  loadList: () => Promise<void>
-  query: Ref<Q>
-  search: ICrudSearch
-  form: Ref<K>
+export interface UseCrudReturn<T, K, Q, M>
+  extends UseListReturn<T, Q>,
+    Pick<UseFormReturn<K, M>, 'form' | 'submitForm'> {
   beforeOpen: ICrudBeforeOpen<T>
   submit: ICrudSubmit
-  submitForm: (type?: ReqType) => Promise<Ref<M | null>>
   deleteRow: (row: T) => void
 }
 
@@ -248,22 +246,16 @@ export function useCrud<
   transformQuery,
   transformDetail,
 }: UseCrudConfig<Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
-  const { query, isFetching, page, limit, total, list, loadList } = useList<
-    Item,
-    Serach
-  >({ url, immediate, transform: transformQuery })
   const id = ref<string | number | undefined>(undefined)
+  const listCore = useList<Item, Serach>({
+    url,
+    immediate,
+    transform: transformQuery,
+  })
   const { form, submitForm } = useForm<Form, Data>({ url, transform })
   const { detail, loadDetail } = useDetail<Form>({ url, id, immediate: false })
   const delUrl = computed(() => replaceId(unref(url), id.value))
   const { data, execute } = useDelete<Data>(delUrl)
-  const search: ICrudSearch = async (done, isValid) => {
-    if (isValid) {
-      page.value = 1
-      await loadList()
-    }
-    done()
-  }
   const beforeOpen: ICrudBeforeOpen = async (done, formType, row) => {
     if (formType === 'edit') {
       let value = row
@@ -291,7 +283,7 @@ export function useCrud<
 
       if (res.value) {
         showTip && appMessage('success', '提交成功！')
-        loadList()
+        listCore.loadList()
         close()
       } else if (res.value !== null) {
         showTip && appMessage('warning', '提交失败！')
@@ -310,7 +302,7 @@ export function useCrud<
 
         if (data.value) {
           showTip && appMessage('success', '删除成功')
-          loadList()
+          listCore.loadList()
         } else {
           showTip && appMessage('warning', '删除失败')
         }
@@ -321,14 +313,7 @@ export function useCrud<
   }
 
   return {
-    isFetching,
-    page,
-    limit,
-    total,
-    list,
-    loadList,
-    query,
-    search,
+    ...listCore,
     form,
     beforeOpen,
     submit,

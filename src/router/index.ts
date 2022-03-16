@@ -17,12 +17,17 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/demo/form',
         component: () => import('../views/demo/Form.vue'),
-        meta: { title: 'Form' },
+        meta: { title: '简单表单' },
       },
       {
         path: '/demo/table',
         component: () => import('../views/demo/Table.vue'),
-        meta: { title: 'Table' },
+        meta: { title: '简单表格' },
+      },
+      {
+        path: '/demo/crud',
+        component: () => import('../views/demo/Crud.vue'),
+        meta: { title: '简单Crud' },
       },
     ],
   },

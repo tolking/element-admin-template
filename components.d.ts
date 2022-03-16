@@ -15,6 +15,7 @@ declare module 'vue' {
     IconArrowDown: typeof import('@element-plus/icons-vue')['ArrowDown']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     ProBreadcrumb: typeof import('element-pro-components')['ProBreadcrumb']
+    ProCrud: typeof import('element-pro-components')['ProCrud']
     ProForm: typeof import('element-pro-components')['ProForm']
     ProLayout: typeof import('element-pro-components')['ProLayout']
     ProTable: typeof import('element-pro-components')['ProTable']

@@ -9,6 +9,7 @@
     :menu="menu"
     border
     stripe
+    layout="total, ->, jumper, prev, pager, next, sizes"
     @load="loadList"
   >
     <template #avatar="{ row }">
@@ -46,7 +47,6 @@ import type { UserItem } from '../../types/index'
 
 const { isFetching, page, limit, total, list, loadList } = useList({
   url: Api.user,
-  immediate: true,
 })
 const {
   isFetching: isLoading,
@@ -94,5 +94,6 @@ async function handleStatus(item: UserItem) {
   } else {
     appMessage('warning', '修改失败!')
   }
+  form.value = {}
 }
 </script>
