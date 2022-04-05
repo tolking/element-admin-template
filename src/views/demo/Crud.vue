@@ -1,36 +1,39 @@
 <template>
-  <pro-crud
-    v-model="form"
-    v-model:search="query"
-    v-model:current-page="page"
-    v-model:page-size="limit"
-    v-loading="isFetching"
-    :columns="columns"
-    :menu="menu"
-    :data="list"
-    :total="total"
-    :rules="rules"
-    :before-open="beforeOpen"
-    border
-    stripe
-    label-width="100px"
-    layout="total, ->, jumper, prev, pager, next, sizes"
-    @search="search"
-    @submit="submit"
-    @delete="deleteRow"
-    @load="loadList"
-  >
-    <template #table-tag="{ row, size }">
-      <el-tag
-        v-for="(item, index) in row.tag"
-        :key="index"
-        :size="size"
-        class="tag-item"
-      >
-        {{ item }}
-      </el-tag>
-    </template>
-  </pro-crud>
+  <pro-card shadow="never">
+    <pro-crud
+      v-model="form"
+      v-model:search="query"
+      v-model:current-page="page"
+      v-model:page-size="limit"
+      v-loading="isFetching"
+      :columns="columns"
+      :menu="menu"
+      :data="list"
+      :total="total"
+      :rules="rules"
+      :before-open="beforeOpen"
+      border
+      stripe
+      label-width="100px"
+      layout="total, ->, jumper, prev, pager, next, sizes"
+      @search="search"
+      @submit="submit"
+      @delete="deleteRow"
+      @load="loadList"
+      @search-reset="loadList"
+    >
+      <template #table-tag="{ row, size }">
+        <el-tag
+          v-for="(item, index) in row.tag"
+          :key="index"
+          :size="size"
+          class="tag-item"
+        >
+          {{ item }}
+        </el-tag>
+      </template>
+    </pro-crud>
+  </pro-card>
 </template>
 
 <script setup lang="ts">

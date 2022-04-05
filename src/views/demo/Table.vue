@@ -1,43 +1,45 @@
 <template>
-  <pro-table
-    v-model:current-page="page"
-    v-model:page-size="limit"
-    v-loading="isFetching"
-    :columns="columns"
-    :data="list"
-    :total="total"
-    :menu="menu"
-    border
-    stripe
-    layout="total, ->, jumper, prev, pager, next, sizes"
-    @load="loadList"
-  >
-    <template #avatar="{ row }">
-      <el-image
-        style="width: 60px; height: 60px"
-        :src="row.avatar"
-        fit="scale-down"
-      />
-    </template>
-    <template #status="{ row, size }">
-      <el-tag
-        :type="row.status ? 'success' : 'danger'"
-        :size="size"
-      >
-        {{ row.status ? '启用' : '禁用' }}
-      </el-tag>
-    </template>
-    <template #menu="{ row, size }">
-      <el-button
-        :loading="isLoading"
-        :size="size"
-        type="text"
-        @click="handleStatus(row)"
-      >
-        {{ row.status ? '禁用' : '启用' }}
-      </el-button>
-    </template>
-  </pro-table>
+  <pro-card shadow="never">
+    <pro-table
+      v-model:current-page="page"
+      v-model:page-size="limit"
+      v-loading="isFetching"
+      :columns="columns"
+      :data="list"
+      :total="total"
+      :menu="menu"
+      border
+      stripe
+      layout="total, ->, jumper, prev, pager, next, sizes"
+      @load="loadList"
+    >
+      <template #avatar="{ row }">
+        <el-image
+          style="width: 60px; height: 60px"
+          :src="row.avatar"
+          fit="scale-down"
+        />
+      </template>
+      <template #status="{ row, size }">
+        <el-tag
+          :type="row.status ? 'success' : 'danger'"
+          :size="size"
+        >
+          {{ row.status ? '启用' : '禁用' }}
+        </el-tag>
+      </template>
+      <template #menu="{ row, size }">
+        <el-button
+          :loading="isLoading"
+          :size="size"
+          type="text"
+          @click="handleStatus(row)"
+        >
+          {{ row.status ? '禁用' : '启用' }}
+        </el-button>
+      </template>
+    </pro-table>
+  </pro-card>
 </template>
 
 <script setup lang="ts">

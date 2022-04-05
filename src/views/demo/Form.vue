@@ -1,10 +1,12 @@
 <template>
-  <pro-form
-    v-model="form"
-    :columns="columns"
-    label-width="100px"
-    @submit="submit"
-  />
+  <pro-card shadow="never">
+    <pro-form
+      v-model="form"
+      :columns="columns"
+      label-width="100px"
+      @submit="submit"
+    />
+  </pro-card>
 </template>
 
 <script setup lang="ts">
