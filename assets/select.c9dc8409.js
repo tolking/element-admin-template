@@ -1,0 +1,1 @@
+import{u}from"./modules-vueuse.e98b2711.js";import{A as r}from"./el-row.cef78d8b.js";import{d as l}from"./index.ebc7d93c.js";function m(){var s;const t=u("CatesList",[]),{data:e,execute:i}=l(r.cates);!((s=t.value)!=null&&s.length)&&o();async function o(){var a;await i(),(a=e.value)!=null&&a.list&&(t.value=e.value.list)}return t}export{m as u};
