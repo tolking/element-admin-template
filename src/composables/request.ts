@@ -1,5 +1,5 @@
 import { stringifyQuery, LocationQueryRaw } from 'vue-router'
-import { createFetch, MaybeRef, UseFetchReturn } from '@vueuse/core'
+import { createFetch, isObject, MaybeRef, UseFetchReturn } from '@vueuse/core'
 import { useGlobalState } from './index'
 import {
   RequestAuthKey,

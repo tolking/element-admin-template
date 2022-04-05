@@ -25,9 +25,29 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '简单表格' },
       },
       {
+        path: '/demo/descriptions',
+        component: () => import('../views/demo/Descriptions.vue'),
+        meta: { title: '简单描述' },
+      },
+      {
         path: '/demo/crud',
         component: () => import('../views/demo/Crud.vue'),
         meta: { title: '简单Crud' },
+      },
+      {
+        path: '/demo/keep-alive',
+        component: () => import('../views/demo/KeepAlive.vue'),
+        meta: { title: 'KeepAlive' },
+      },
+      {
+        path: '/demo/complex-form',
+        component: () => import('../views/demo/ComplexForm.vue'),
+        meta: { title: '复杂表单' },
+      },
+      {
+        path: '/demo/complex-crud',
+        component: () => import('../views/demo/ComplexCrud.vue'),
+        meta: { title: '复杂Crud' },
       },
     ],
   },

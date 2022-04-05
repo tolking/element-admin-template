@@ -22,24 +22,6 @@ const customImports = {
     'defineCrudSearch',
     'defineCrudSubmit',
     'defineDescriptionsColumns',
-
-    'useShow',
-    'useScreenSize',
-    'useSharedRoutes',
-    'useCurrentRoutes',
-    'useEmitValue',
-
-    'get',
-    'set',
-    'has',
-    'objectPick',
-    'objectOmit',
-    'objectDeepMerge',
-    'isArray',
-    'isObject',
-    'isFunction',
-    'isBoolean',
-    'isURL',
   ],
 }
 

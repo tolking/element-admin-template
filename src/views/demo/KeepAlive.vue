@@ -1,5 +1,7 @@
 <template>
   <pro-card shadow="never">
+    <p>当页面的名字以 `Keep` 开头时会自动缓存当前页面</p>
+    <p>尝试在下面输入框中输入内容，然后切换其它页面再切换回来，数据将不变</p>
     <pro-form
       v-model="form"
       :columns="columns"
@@ -9,13 +11,17 @@
   </pro-card>
 </template>
 
+<script lang="ts">
+// INFO: 当页面的名字以 `Keep` 开头时会自动缓存当前页面
+export default { name: 'KeepAlive' }
+</script>
+
 <script setup lang="ts">
 import { useForm } from '../../composables/index'
 import { Api } from '../../utils/index'
-import RichEditorVue from '../../components/RichEditor.vue'
 import type { ArticleForm } from '../../types/article'
 
-const { form, submit } = useForm<ArticleForm>({ url: Api.article })
+const { form, submit } = useForm<ArticleForm>({ url: Api.form })
 const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
@@ -36,23 +42,6 @@ const columns = defineFormColumns<ArticleForm>([
       clearable: true,
       placeholder: '请输入作者',
     },
-  },
-  {
-    label: '标签',
-    prop: 'tag',
-    component: markRaw(ProInputTag),
-    rules: { required: true, message: '请输入标签', trigger: 'blur' },
-    props: {
-      clearable: true,
-      trigger: 'enter',
-      placeholder: '请输入标签',
-    },
-  },
-  {
-    label: '内容',
-    prop: 'content',
-    component: markRaw(RichEditorVue),
-    rules: { required: true, message: '请输入内容', trigger: 'blur' },
   },
 ])
 </script>

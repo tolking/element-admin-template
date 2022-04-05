@@ -1,5 +1,9 @@
 <template>
-  <pro-layout>
+  <pro-layout
+    transition="el-fade-in"
+    keep-alive
+    :include="/^Keep/"
+  >
     <template #header-left>
       <pro-breadcrumb />
     </template>

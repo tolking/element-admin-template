@@ -20,15 +20,15 @@ import type { PagesData } from '../types/index'
 
 interface CommonConfig {
   url: MaybeRef<string>
-  immediate?: boolean
+  immediate?: MaybeRef<boolean>
 }
 
 export type ReqFormType = 'post' | 'put'
 
 export interface UseFormConfig<T> {
   url: MaybeRef<string>
-  showTip?: boolean
-  type?: ReqFormType
+  showTip?: MaybeRef<boolean>
+  type?: MaybeRef<ReqFormType>
   transform?: (form: T) => T
 }
 
@@ -67,9 +67,9 @@ export function useForm<Form = StringObject, Data = unknown>({
       const res = await submitForm()
 
       if (res.value) {
-        showTip && appMessage('success', '提交成功!')
+        unref(showTip) && appMessage('success', '提交成功！')
       } else if (res.value !== null) {
-        showTip && appMessage('warning', '提交失败!')
+        unref(showTip) && appMessage('warning', '提交失败！')
       }
     }
     done()
@@ -77,7 +77,7 @@ export function useForm<Form = StringObject, Data = unknown>({
 
   async function submitForm(reqType = type) {
     isFetching.value = true
-    if (reqType === 'post') {
+    if (unref(reqType) === 'post') {
       await postForm.execute()
       isFetching.value = false
       return postForm.data
@@ -96,12 +96,9 @@ export function useForm<Form = StringObject, Data = unknown>({
   }
 }
 
-export interface UseDetailConfig extends CommonConfig {
-  id?: MaybeRef<string | number | undefined>
-}
-
 export interface UseDetailReturn<T> {
   isFetching: Ref<boolean>
+  detailId: Ref<string | number | undefined>
   detail: Ref<T | null>
   loadDetail: () => Promise<void>
 }
@@ -109,18 +106,20 @@ export interface UseDetailReturn<T> {
 /**
  * 封装获取详情
  * @param config.url 请求地址
- * @param config.id 请求加载的id
  * @param config.immediate 是否在修改ID时加载，默认: `true`
  */
 export function useDetail<T = UnknownObject>({
   url,
-  id,
   immediate = true,
-}: UseDetailConfig): UseDetailReturn<T> {
-  const _url = computed(() => replaceId(unref(url), unref(id)))
+}: CommonConfig): UseDetailReturn<T> {
+  const detailId = ref<string | number | undefined>(undefined)
+  const _url = computed(() => replaceId(unref(url), detailId.value))
   const { isFetching, data, execute } = useGet<T>(_url)
 
-  immediate && loadDetail()
+  unref(immediate) &&
+    watch(detailId, (val) => {
+      val !== undefined && loadDetail()
+    })
 
   async function loadDetail() {
     if (isFetching.value) return
@@ -129,8 +128,66 @@ export function useDetail<T = UnknownObject>({
 
   return {
     isFetching,
+    detailId,
     detail: data,
     loadDetail,
+  }
+}
+
+export interface UseDeleteItemConfig extends CommonConfig {
+  showTip?: MaybeRef<boolean>
+}
+
+export interface UseDeleteItemReturn<T> {
+  isFetching: Ref<boolean>
+  deleteId: Ref<string | number | undefined>
+  submitDelete: () => Promise<Ref<T | null> | undefined>
+}
+
+/**
+ * 封装删除某项
+ * @param config.url 请求地址
+ * @param config.immediate 是否在修改ID时直接调用删除，默认: `false`
+ * @param config.showTip 显示提示，默认: `true`
+ */
+export function useDeleteItem<T = unknown>({
+  url,
+  immediate = false,
+  showTip = true,
+}: UseDeleteItemConfig): UseDeleteItemReturn<T> {
+  const deleteId = ref<string | number | undefined>(undefined)
+  const _url = computed(() => replaceId(unref(url), deleteId.value))
+  const { isFetching, data, execute } = useDelete<T>(_url)
+
+  unref(immediate) &&
+    watch(deleteId, (val) => {
+      val !== undefined && submitDelete()
+    })
+
+  function submitDelete() {
+    return appConfirm('警告', '您确定要删除该项吗?', { type: 'warning' })
+      .then(async () => {
+        await execute()
+
+        if (data.value) {
+          deleteId.value = undefined
+          unref(showTip) && appMessage('success', '删除成功!')
+        } else {
+          unref(showTip) && appMessage('warning', '删除失败!')
+        }
+        return data
+      })
+      .catch(() => {
+        deleteId.value = undefined
+        appMessage('info', '已取消操作')
+        return undefined
+      })
+  }
+
+  return {
+    isFetching,
+    deleteId,
+    submitDelete,
   }
 }
 
@@ -182,7 +239,7 @@ export function useList<Item = StringObject, Serach = Item>({
     done()
   }
 
-  immediate && loadList()
+  unref(immediate) && loadList()
 
   async function loadList() {
     if (isFetching.value) return
@@ -209,7 +266,7 @@ export function useList<Item = StringObject, Serach = Item>({
 export interface UseCrudConfig<T, K>
   extends CommonConfig,
     Pick<UseFormConfig<T>, 'showTip' | 'transform'> {
-  syncDetail?: boolean
+  syncDetail?: MaybeRef<boolean>
   transformQuery?: (form: K) => K
   transformDetail?: (form: T) => T
 }
@@ -219,7 +276,7 @@ export interface UseCrudReturn<T, K, Q, M>
     Pick<UseFormReturn<K, M>, 'form' | 'submitForm'> {
   beforeOpen: ICrudBeforeOpen<T>
   submit: ICrudSubmit
-  deleteRow: (row: T) => void
+  deleteRow: (row: T) => Promise<void>
 }
 
 /**
@@ -227,7 +284,7 @@ export interface UseCrudReturn<T, K, Q, M>
  * @param config.url 请求地址
  * @param config.immediate 是否在初始化时加载，默认: `true`
  * @param config.showTip 显示提示，默认: `true`
- * @param config.syncDetail 是否需要异步加载详情
+ * @param config.syncDetail 是否需要异步加载详情，默认: `false`
  * @param config.transform 转换表单
  * @param config.transformQuery 转换搜索
  * @param config.transformDetail 转换详情到表单
@@ -246,24 +303,25 @@ export function useCrud<
   transformQuery,
   transformDetail,
 }: UseCrudConfig<Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
-  const id = ref<string | number | undefined>(undefined)
   const listCore = useList<Item, Serach>({
     url,
     immediate,
     transform: transformQuery,
   })
-  const { form, submitForm } = useForm<Form, Data>({ url, transform })
-  const { detail, loadDetail } = useDetail<Form>({ url, id, immediate: false })
-  const delUrl = computed(() => replaceId(unref(url), id.value))
-  const { data, execute } = useDelete<Data>(delUrl)
+  const { form, submitForm } = useForm<Form, Data>({ url, showTip, transform })
+  const { deleteId, submitDelete } = useDeleteItem<Data>({ url, showTip })
+  const { detailId, detail, loadDetail } = useDetail<Form>({
+    url,
+    immediate: false,
+  })
   const beforeOpen: ICrudBeforeOpen = async (done, formType, row) => {
     if (formType === 'edit') {
       let value = row
-      if (syncDetail) {
+      if (unref(syncDetail)) {
         const _row = row as Item & { id: string | number }
 
         if (_row.id) {
-          id.value = _row.id
+          detailId.value = _row.id
           await loadDetail()
 
           if (detail.value) {
@@ -274,7 +332,6 @@ export function useCrud<
 
       form.value = transformDetail ? transformDetail(value) : value
     }
-
     done()
   }
   const submit: ICrudSubmit = async (close, done, formType, isValid) => {
@@ -292,24 +349,11 @@ export function useCrud<
     done()
   }
 
-  function deleteRow(row: Item) {
-    appConfirm('您确定要删除该项吗？', '警告', { type: 'warning' })
-      .then(async () => {
-        const _row = row as Item & { id: string | number }
-
-        id.value = _row.id
-        await execute()
-
-        if (data.value) {
-          showTip && appMessage('success', '删除成功')
-          listCore.loadList()
-        } else {
-          showTip && appMessage('warning', '删除失败')
-        }
-      })
-      .catch(() => {
-        appMessage('info', '已取消操作')
-      })
+  async function deleteRow(row: Item) {
+    const _row = row as Item & { id: string | number }
+    deleteId.value = _row.id
+    const res = await submitDelete()
+    res?.value && listCore.loadList()
   }
 
   return {
