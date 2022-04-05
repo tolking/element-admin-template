@@ -8,4 +8,10 @@ export const Api = {
   userStatus: '/admin/user/{id}/status',
   /** 文章 */
   article: '/admin/article',
+  /** 商品 */
+  goods: '/admin/goods',
+  /** 商品分类 */
+  cates: '/admin/goods/cates',
+  /** 表单 */
+  form: '/admin/form',
 }

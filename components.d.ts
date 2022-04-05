@@ -16,6 +16,7 @@ declare module 'vue' {
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     ProBreadcrumb: typeof import('element-pro-components')['ProBreadcrumb']
     ProCard: typeof import('element-pro-components')['ProCard']
+    ProColumnSetting: typeof import('element-pro-components')['ProColumnSetting']
     ProCrud: typeof import('element-pro-components')['ProCrud']
     ProDescriptions: typeof import('element-pro-components')['ProDescriptions']
     ProForm: typeof import('element-pro-components')['ProForm']
