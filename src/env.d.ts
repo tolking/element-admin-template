@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="element-plus/global" />
-/// <reference types="element-pro-components" />
+/// <reference types="element-pro-components/types/components" />
 
 declare module '*.vue' {
   import { DefineComponent } from 'vue'

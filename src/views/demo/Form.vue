@@ -45,7 +45,7 @@ const columns = defineFormColumns<ArticleForm>([
     props: {
       clearable: true,
       trigger: 'enter',
-      placeholder: '请输入标签',
+      placeholder: '通过 Enter 键触发输入',
     },
   },
   {

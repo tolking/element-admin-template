@@ -55,5 +55,9 @@
       "eslint --fix"
     ],
     "*.{html,css,md,json}": "prettier --write"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "turbo && turbo dev"
   }
 }
