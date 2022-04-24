@@ -314,8 +314,8 @@ export function useCrud<
     url,
     immediate: false,
   })
-  const beforeOpen: ICrudBeforeOpen = async (done, formType, row) => {
-    if (formType === 'edit') {
+  const beforeOpen: ICrudBeforeOpen = async (done, type, row) => {
+    if (type === 'edit' || type === 'detail') {
       let value = row
       if (unref(syncDetail)) {
         const _row = row as Item & { id: string | number }
@@ -334,9 +334,9 @@ export function useCrud<
     }
     done()
   }
-  const submit: ICrudSubmit = async (close, done, formType, isValid) => {
+  const submit: ICrudSubmit = async (close, done, type, isValid) => {
     if (isValid) {
-      const res = await submitForm(formType === 'add' ? 'post' : 'put')
+      const res = await submitForm(type === 'add' ? 'post' : 'put')
 
       if (res.value) {
         showTip && appMessage('success', '提交成功！')
