@@ -9,9 +9,11 @@
       :columns="columns"
       :menu="menu"
       :data="list"
+      :detail="form"
       :total="total"
       :rules="rules"
       :before-open="beforeOpen"
+      :column="1"
       border
       stripe
       label-width="100px"
@@ -30,6 +32,16 @@
           class="tag-item"
         >
           {{ item }}
+        </el-tag>
+      </template>
+      <template #detail-tag="{ item, size }">
+        <el-tag
+          v-for="(v, i) in item.tag"
+          :key="i"
+          :size="size"
+          class="tag-item"
+        >
+          {{ v }}
         </el-tag>
       </template>
     </pro-crud>
@@ -61,6 +73,7 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: 'ID',
     prop: 'id',
+    detail: true,
   },
   {
     label: '标题',
@@ -68,6 +81,7 @@ const columns = defineCrudColumns<ArticleItem>([
     component: markRaw(ElInput),
     search: true,
     form: true,
+    detail: true,
     props: {
       clearable: true,
       placeholder: '请输入标题',
@@ -79,6 +93,7 @@ const columns = defineCrudColumns<ArticleItem>([
     component: markRaw(ElInput),
     search: true,
     form: true,
+    detail: true,
     props: {
       clearable: true,
       placeholder: '请输入作者',
@@ -89,6 +104,7 @@ const columns = defineCrudColumns<ArticleItem>([
     prop: 'tag',
     component: markRaw(ProInputTag),
     form: true,
+    detail: true,
     props: {
       clearable: true,
       trigger: 'enter',
@@ -100,11 +116,13 @@ const columns = defineCrudColumns<ArticleItem>([
     prop: 'content',
     component: markRaw(RichEditorVue),
     form: true,
+    detail: true,
     hide: true,
   },
   {
     label: '创建时间',
     prop: 'createTime',
+    detail: true,
   },
 ])
 const rules = {

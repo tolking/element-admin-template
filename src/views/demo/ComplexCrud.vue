@@ -89,6 +89,7 @@ const menu = defineCrudMenuColumns({
   label: '操作',
   add: false,
   edit: false,
+  detail: false,
   del: false,
 })
 // INFO: 当 columns 内部引用响应式数据时必须使用 `ref()` 包裹且数据不需要解构响应式数据，否则可以无法获取异步数据变化
