@@ -36,19 +36,19 @@ function ElementProResolver(name: string) {
       .replace(/\B([A-Z])/g, '-$1')
       .toLocaleLowerCase()
     return {
-      importName: name,
-      path: 'element-pro-components',
+      name,
+      from: 'element-pro-components',
       sideEffects: toAbsolute(`element-pro-components/lib/styles/${fileName}`),
     }
   }
 }
 
-function ElementIconResolver(name: string) {
-  if (name.startsWith('Icon')) {
-    const component = name.slice(4)
+function ElementIconResolver(componentName: string) {
+  if (componentName.startsWith('Icon')) {
+    const name = componentName.slice(4)
     return {
-      importName: component,
-      path: '@element-plus/icons-vue',
+      name,
+      from: '@element-plus/icons-vue',
     }
   }
 }

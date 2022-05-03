@@ -20,6 +20,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
     prop: 'title',
+    // NOTE: 这里可以改写成 `component: 'el-input'` 但需要在 `main.ts` 中全局引用组件
     component: markRaw(ElInput),
     rules: { required: true, message: '请输入标题', trigger: 'blur' },
     props: {
