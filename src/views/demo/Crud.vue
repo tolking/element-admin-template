@@ -13,7 +13,6 @@
       :total="total"
       :rules="rules"
       :before-open="beforeOpen"
-      :column="1"
       border
       stripe
       label-width="100px"
@@ -73,7 +72,6 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: 'ID',
     prop: 'id',
-    detail: true,
   },
   {
     label: '标题',
@@ -122,7 +120,6 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '创建时间',
     prop: 'createTime',
-    detail: true,
   },
 ])
 const rules = {

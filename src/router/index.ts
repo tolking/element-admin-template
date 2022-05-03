@@ -10,10 +10,15 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    redirect: '/demo/form',
+    redirect: '/demo',
     component: () => import('../layout/Layout.vue'),
     meta: { title: 'Demo', icon: markRaw(IconHouse) },
     children: [
+      {
+        path: '/demo',
+        component: () => import('../views/demo/Dashboard.vue'),
+        meta: { title: '首页' },
+      },
       {
         path: '/demo/form',
         component: () => import('../views/demo/Form.vue'),

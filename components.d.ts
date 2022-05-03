@@ -5,13 +5,16 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    DashboardCard: typeof import('./src/components/DashboardCard.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCalendar: typeof import('element-plus/es')['ElCalendar']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElImage: typeof import('element-plus/es')['ElImage']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElTag: typeof import('element-plus/es')['ElTag']
     IconArrowDown: typeof import('@element-plus/icons-vue')['ArrowDown']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
