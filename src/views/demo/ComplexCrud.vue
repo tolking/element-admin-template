@@ -38,14 +38,14 @@
       <template #menu="{ row, size }">
         <el-button
           :size="size"
-          type="text"
+          text
           @click="toForm(row.id)"
         >
           编辑
         </el-button>
         <el-button
           :size="size"
-          type="text"
+          text
           @click="deleteRow(row)"
         >
           删除

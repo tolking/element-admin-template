@@ -259,6 +259,6 @@ function transform(form: GoodsForm) {
   margin: 0;
   padding: 18px 0;
   width: 100%;
-  background-color: var(--el-color-white);
+  background-color: var(--pro-card-bg-color);
 }
 </style>

@@ -32,7 +32,7 @@
         <el-button
           :loading="isLoading"
           :size="size"
-          type="text"
+          text
           @click="handleStatus(row)"
         >
           {{ row.status ? '禁用' : '启用' }}
