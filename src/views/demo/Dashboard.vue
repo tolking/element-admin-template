@@ -114,7 +114,7 @@ const info = [
 }
 .space-y {
   margin-top: 16px;
-  magin-bottom: 16px;
+  margin-bottom: 16px;
 }
 .circle-list {
   display: flex;

@@ -85,4 +85,18 @@ function init() {
   min-height: 150px;
   resize: vertical;
 }
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+  border-color: var(--el-border-color);
+}
+.ql-snow .ql-picker {
+  color: var(--el-text-color-primary);
+}
+.ql-snow .ql-stroke {
+  stroke: var(--el-text-color-primary);
+}
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  fill: var(--el-text-color-primary);
+}
 </style>
