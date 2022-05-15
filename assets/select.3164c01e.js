@@ -1,1 +1,0 @@
-import{w as u}from"./modules-vueuse.fdeee5e2.js";import{A as r}from"./crud.b3d7892c.js";import{d as l}from"./index.72e3b932.js";function m(){var s;const t=u("CatesList",[]),{data:e,execute:i}=l(r.cates);!((s=t.value)!=null&&s.length)&&o();async function o(){var a;await i(),(a=e.value)!=null&&a.list&&(t.value=e.value.list)}return t}export{m as u};
