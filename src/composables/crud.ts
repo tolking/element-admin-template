@@ -5,6 +5,7 @@ import {
   replaceId,
   RequestPageKey,
   RequestLimitkey,
+  RequestPage,
   RequestLimit,
 } from '../utils/index'
 import type { Ref } from 'vue'
@@ -217,7 +218,7 @@ export function useList<Item = StringObject, Serach = Item>({
   transform,
   immediate = true,
 }: UseListConfig<Serach>): UseListReturn<Item, Serach> {
-  const page = ref(1)
+  const page = ref(RequestPage)
   const limit = ref(RequestLimit)
   const total = ref(0)
   const query = ref<Serach>({} as Serach) as Ref<Serach>
@@ -233,7 +234,7 @@ export function useList<Item = StringObject, Serach = Item>({
   const list = ref<Item[]>([]) as Ref<Item[]>
   const search: IFormSubmit = async (done, isValid) => {
     if (isValid) {
-      page.value = 1
+      page.value = RequestPage
       await loadList()
     }
     done()
@@ -263,12 +264,12 @@ export function useList<Item = StringObject, Serach = Item>({
   }
 }
 
-export interface UseCrudConfig<T, K>
+export interface UseCrudConfig<T, K, U>
   extends CommonConfig,
-    Pick<UseFormConfig<T>, 'showTip' | 'transform'> {
+    Pick<UseFormConfig<K>, 'showTip' | 'transform'> {
   syncDetail?: MaybeRef<boolean>
-  transformQuery?: (form: K) => K
-  transformDetail?: (form: T) => T
+  transformQuery?: (form: U) => U
+  transformDetail?: (form: T | K) => K
 }
 
 export interface UseCrudReturn<T, K, Q, M>
@@ -302,7 +303,7 @@ export function useCrud<
   transform,
   transformQuery,
   transformDetail,
-}: UseCrudConfig<Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
+}: UseCrudConfig<Item, Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
   const listCore = useList<Item, Serach>({
     url,
     immediate,
@@ -314,23 +315,20 @@ export function useCrud<
     url,
     immediate: false,
   })
-  const beforeOpen: ICrudBeforeOpen = async (done, type, row) => {
+  const beforeOpen: ICrudBeforeOpen<Item> = async (done, type, row) => {
     if (type === 'edit' || type === 'detail') {
-      let value = row
-      if (unref(syncDetail)) {
-        const _row = row as Item & { id: string | number }
+      let value = { ...row } as (Item | Form) & { id?: string | number }
 
-        if (_row.id) {
-          detailId.value = _row.id
-          await loadDetail()
+      if (unref(syncDetail) && value?.id) {
+        detailId.value = value.id
+        await loadDetail()
 
-          if (detail.value) {
-            value = detail.value
-          }
+        if (detail.value) {
+          value = detail.value
         }
       }
 
-      form.value = transformDetail ? transformDetail(value) : value
+      form.value = transformDetail ? transformDetail(value) : (value as Form)
     }
     done()
   }
