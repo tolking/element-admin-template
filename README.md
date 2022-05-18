@@ -32,7 +32,9 @@
 
 选择下面一种方式快速开始
 
-- 快速开启在线编辑器 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/tolking/element-admin-template)
+- 快速开启在线编辑器
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/tolking/element-admin-template)
 
 - 通过克隆
 
@@ -106,9 +108,9 @@ execute()
 ## 开发流程
 
 - 在 `src/utils/api.ts` 中增加 api 地址
+- 在 `src/router/index.ts` 中配置路由信息
 - 在 `src/types/` 中增加相关类型
 - 在 `src/views/` 中增加界面，参考模版进行页面构建
-- 在 `src/router/index.ts` 中配置路由信息
 
 ## 打包
 
