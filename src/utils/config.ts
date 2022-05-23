@@ -16,9 +16,6 @@ export const RequestTimeout = 30000
 /** 请求当前页键值 */
 export const RequestPageKey = 'page'
 
-/** 请求的初始页数 */
-export const RequestPage = 1
-
 /** 请求条数键值 */
 export const RequestLimitkey = 'limit'
 

@@ -5,7 +5,6 @@ import {
   replaceId,
   RequestPageKey,
   RequestLimitkey,
-  RequestPage,
   RequestLimit,
 } from '../utils/index'
 import type { Ref } from 'vue'
@@ -218,7 +217,7 @@ export function useList<Item = StringObject, Serach = Item>({
   transform,
   immediate = true,
 }: UseListConfig<Serach>): UseListReturn<Item, Serach> {
-  const page = ref(RequestPage)
+  const page = ref(1)
   const limit = ref(RequestLimit)
   const total = ref(0)
   const query = ref<Serach>({} as Serach) as Ref<Serach>
@@ -234,7 +233,7 @@ export function useList<Item = StringObject, Serach = Item>({
   const list = ref<Item[]>([]) as Ref<Item[]>
   const search: IFormSubmit = async (done, isValid) => {
     if (isValid) {
-      page.value = RequestPage
+      page.value = 1
       await loadList()
     }
     done()
