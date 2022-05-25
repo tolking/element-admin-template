@@ -1,7 +1,9 @@
 <template>
-  <pro-card shadow="never">
+  <pro-card
+    v-loading="isFetching"
+    shadow="never"
+  >
     <pro-descriptions
-      v-loading="isFetching"
       :columns="columns"
       :detail="detail || {}"
       :column="2"

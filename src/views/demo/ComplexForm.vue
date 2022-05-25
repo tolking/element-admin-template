@@ -1,8 +1,10 @@
 <template>
-  <pro-card shadow="never">
+  <pro-card
+    v-loading="isFetching"
+    shadow="never"
+  >
     <pro-form
       v-model="form"
-      v-loading="isFetching"
       :columns="columns"
       :gutter="40"
       label-width="100px"

@@ -1,9 +1,11 @@
 <template>
-  <pro-card shadow="never">
+  <pro-card
+    v-loading="isFetching"
+    shadow="never"
+  >
     <pro-table
       v-model:current-page="page"
       v-model:page-size="limit"
-      v-loading="isFetching"
       :columns="columns"
       :data="list"
       :total="total"

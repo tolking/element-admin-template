@@ -1,10 +1,12 @@
 <template>
-  <pro-card shadow="never">
+  <pro-card
+    v-loading="isFetching"
+    shadow="never"
+  >
     <pro-crud
       v-model:search="query"
       v-model:current-page="page"
       v-model:page-size="limit"
-      v-loading="isFetching"
       :columns="columns"
       :menu="menu"
       :data="list"
@@ -38,14 +40,16 @@
       <template #menu="{ row, size }">
         <el-button
           :size="size"
-          text
+          type="primary"
+          link
           @click="toForm(row.id)"
         >
           编辑
         </el-button>
         <el-button
           :size="size"
-          text
+          type="danger"
+          link
           @click="deleteRow(row)"
         >
           删除
