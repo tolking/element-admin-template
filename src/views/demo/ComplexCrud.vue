@@ -150,7 +150,7 @@ const columns = ref(
     },
     {
       label: '规格信息',
-      prop: '',
+      prop: 'length', // 这里无意义，只为通过类型测试，不影响显示
       children: [
         {
           label: '长',
