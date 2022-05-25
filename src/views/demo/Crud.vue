@@ -1,11 +1,13 @@
 <template>
-  <pro-card shadow="never">
+  <pro-card
+    v-loading="isFetching"
+    shadow="never"
+  >
     <pro-crud
       v-model="form"
       v-model:search="query"
       v-model:current-page="page"
       v-model:page-size="limit"
-      v-loading="isFetching"
       :columns="columns"
       :menu="menu"
       :data="list"
