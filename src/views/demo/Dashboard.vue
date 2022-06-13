@@ -96,6 +96,9 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import DashboardCard from '../../components/DashboardCard.vue'
+
 const days = ref(new Date())
 const title = computed(() => {
   return `${days.value.toLocaleDateString()} 数据`

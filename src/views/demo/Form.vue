@@ -10,18 +10,24 @@
 </template>
 
 <script setup lang="ts">
+import { markRaw } from 'vue'
+import { defineFormColumns } from 'element-pro-components'
 import { useForm } from '../../composables/index'
 import { Api } from '../../utils/index'
-import RichEditorVue from '../../components/RichEditor.vue'
+import RichEditor from '../../components/RichEditor.vue'
 import type { ArticleForm } from '../../types/article'
+
+import { useLocale } from 'element-plus'
+const { t } = useLocale()
+console.log(t('pro.form.submit'))
+console.log(t('pro.crud.submit'))
 
 const { form, submit } = useForm<ArticleForm>({ url: Api.article })
 const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
     prop: 'title',
-    // NOTE: 这里可以改写成 `component: 'el-input'` 但需要在 `main.ts` 中全局引用组件和样式
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: { required: true, message: '请输入标题', trigger: 'blur' },
     props: {
       clearable: true,
@@ -31,7 +37,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '作者',
     prop: 'author',
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: { required: true, message: '请输入作者', trigger: 'blur' },
     props: {
       clearable: true,
@@ -41,7 +47,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '标签',
     prop: 'tag',
-    component: markRaw(ProInputTag),
+    component: 'pro-input-tag',
     rules: { required: true, message: '请输入标签', trigger: 'blur' },
     props: {
       clearable: true,
@@ -52,7 +58,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '内容',
     prop: 'content',
-    component: markRaw(RichEditorVue),
+    component: markRaw(RichEditor),
     rules: { required: true, message: '请输入内容', trigger: 'blur' },
   },
 ])

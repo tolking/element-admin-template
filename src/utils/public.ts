@@ -1,9 +1,12 @@
+import { ElMessage, ElMessageBox } from 'element-plus'
 import type {
   MessageOptions,
   MessageHandle,
   ElMessageBoxOptions,
   MessageBoxData,
 } from 'element-plus'
+import 'element-plus/es/components/message/style/css'
+import 'element-plus/es/components/message-box/style/css'
 
 /**
  * 显示提示弹窗

@@ -45,6 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import {
+  defineTableColumns,
+  defineTableMenuColumns,
+} from 'element-pro-components'
 import { useList, useForm } from '../../composables/index'
 import { Api, appMessage } from '../../utils/index'
 import type { UserItem } from '../../types/index'

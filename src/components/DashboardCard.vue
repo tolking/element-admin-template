@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { TransitionPresets } from '@vueuse/core'
+import { onMounted, ref, toRefs } from 'vue'
+import { TransitionPresets, useTransition } from '@vueuse/core'
 
 const props = defineProps<{
   title: string

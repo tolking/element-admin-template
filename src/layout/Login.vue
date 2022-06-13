@@ -17,9 +17,18 @@
 </template>
 
 <script setup lang="ts">
+import { markRaw, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDark, useMagicKeys, useTitle } from '@vueuse/core'
+import { Lock, User } from '@element-plus/icons-vue'
+import {
+  defineFormColumns,
+  defineFormMenuColumns,
+  defineFormSubmit,
+  IFormExpose,
+} from 'element-pro-components'
 import { useGlobalState, useForm } from '../composables/index'
 import { Api } from '../utils/index'
-import type { IFormExpose } from 'element-pro-components'
 import type { LoginForm, ResLogin } from '../types/index'
 
 const router = useRouter()
@@ -31,18 +40,18 @@ const columns = defineFormColumns<LoginForm>([
   {
     label: '用户',
     prop: 'name',
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: { required: true, message: '请输入用户名', trigger: 'blur' },
     props: {
       clearable: true,
-      prefixIcon: markRaw(IconUser),
+      prefixIcon: markRaw(User),
       placeholder: '请输入用户名',
     },
   },
   {
     label: '密码',
     prop: 'password',
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: [
       { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 5, max: 16, message: '长度 5 到 16 个字符', trigger: 'blur' },
@@ -51,7 +60,7 @@ const columns = defineFormColumns<LoginForm>([
       type: 'password',
       clearable: true,
       showPassword: true,
-      prefixIcon: markRaw(IconLock),
+      prefixIcon: markRaw(Lock),
       placeholder: '请输入密码',
     },
   },
@@ -65,6 +74,7 @@ const submit = defineFormSubmit(async (done, isValid) => {
   done()
 })
 
+useDark()
 useTitle('登陆后台')
 
 watch(enter, async (value) => {

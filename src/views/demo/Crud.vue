@@ -50,9 +50,14 @@
 </template>
 
 <script setup lang="ts">
+import { markRaw } from 'vue'
+import {
+  defineCrudColumns,
+  defineCrudMenuColumns,
+} from 'element-pro-components'
 import { useCrud } from '../../composables/index'
 import { Api } from '../../utils/index'
-import RichEditorVue from '../../components/RichEditor.vue'
+import RichEditor from '../../components/RichEditor.vue'
 import type { ArticleItem, ArticleForm, ArticleQuery } from '../../types/index'
 
 const {
@@ -78,7 +83,7 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '标题',
     prop: 'title',
-    component: markRaw(ElInput),
+    component: 'el-input',
     search: true,
     form: true,
     detail: true,
@@ -90,7 +95,7 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '作者',
     prop: 'author',
-    component: markRaw(ElInput),
+    component: 'el-input',
     search: true,
     form: true,
     detail: true,
@@ -102,7 +107,7 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '标签',
     prop: 'tag',
-    component: markRaw(ProInputTag),
+    component: 'pro-input-tag',
     form: true,
     detail: true,
     props: {
@@ -114,7 +119,7 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '内容',
     prop: 'content',
-    component: markRaw(RichEditorVue),
+    component: markRaw(RichEditor),
     form: true,
     detail: true,
     hide: true,
