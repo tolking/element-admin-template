@@ -14,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { defineFormColumns } from 'element-pro-components'
 import { useForm, useDetail, useCatesList } from '../../composables/index'
 import { Api } from '../../utils/index'
 import type { GoodsForm } from '../../types/index'
@@ -27,6 +30,7 @@ const { isFetching, detailId, detail, loadDetail } = useDetail<GoodsForm>({
 
 const catesList = useCatesList()
 // INFO: 当 columns 内部引用响应式数据时必须使用 `ref()` 包裹且数据不需要解构响应式数据，否则可以无法获取异步数据变化
+// INFO: 当然也可以使用 `computed`
 const columns = ref(
   defineFormColumns<GoodsForm>([
     {
@@ -37,7 +41,7 @@ const columns = ref(
     {
       label: '商品名称',
       prop: 'title',
-      component: markRaw(ElInput),
+      component: 'el-input',
       rules: { required: true, message: '请输入商品名称', trigger: 'blur' },
       props: {
         clearable: true,
@@ -47,7 +51,7 @@ const columns = ref(
     {
       label: '价格',
       prop: 'price',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       rules: { required: true, message: '请输入价格', trigger: 'blur' },
       props: {
@@ -60,7 +64,7 @@ const columns = ref(
     {
       label: '成本',
       prop: 'cost',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       props: {
         type: 'number',
@@ -72,7 +76,7 @@ const columns = ref(
     {
       label: '库存',
       prop: 'stock',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       rules: { required: true, message: '请输入库存', trigger: 'blur' },
       props: {
@@ -85,7 +89,7 @@ const columns = ref(
     {
       label: '分类',
       prop: 'cates',
-      component: markRaw(ProSelect),
+      component: 'pro-select',
       md: 12,
       rules: { required: true, message: '请选择分类', trigger: 'blur' },
       props: {
@@ -98,7 +102,7 @@ const columns = ref(
     {
       label: '标签',
       prop: 'tags',
-      component: markRaw(ProInputTag),
+      component: 'pro-input-tag',
       md: 12,
       rules: { required: true, message: '请输入标签', trigger: 'blur' },
       props: {
@@ -110,7 +114,7 @@ const columns = ref(
     {
       label: '上架时间',
       prop: 'time',
-      component: markRaw(ElDatePicker),
+      component: 'el-date-picker',
       md: 12,
       rules: { required: true, message: '请选择上架时间段', trigger: 'blur' },
       props: {
@@ -128,7 +132,7 @@ const columns = ref(
     {
       label: '描述',
       prop: 'desc',
-      component: markRaw(ElInput),
+      component: 'el-input',
       rules: { required: true, message: '请输入描述', trigger: 'blur' },
       props: {
         type: 'textarea',
@@ -146,7 +150,7 @@ const columns = ref(
     {
       label: '长',
       prop: 'length',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       props: {
         type: 'number',
@@ -158,7 +162,7 @@ const columns = ref(
     {
       label: '宽',
       prop: 'width',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       props: {
         type: 'number',
@@ -170,7 +174,7 @@ const columns = ref(
     {
       label: '高',
       prop: 'height',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       props: {
         type: 'number',
@@ -182,7 +186,7 @@ const columns = ref(
     {
       label: '重量',
       prop: 'weight',
-      component: markRaw(ElInput),
+      component: 'el-input',
       md: 12,
       props: {
         type: 'number',
@@ -199,7 +203,7 @@ const columns = ref(
         {
           label: '属性',
           prop: 'key',
-          component: markRaw(ElInput),
+          component: 'el-input',
           md: 8,
           rules: { required: true, message: '请输入商品名称', trigger: 'blur' },
           props: {
@@ -210,7 +214,7 @@ const columns = ref(
         {
           label: '可选值',
           prop: 'value',
-          component: markRaw(ProInputTag),
+          component: 'pro-input-tag',
           md: 16,
           rules: { required: true, message: '请输入可选值', trigger: 'blur' },
           props: {

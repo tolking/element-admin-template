@@ -70,7 +70,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Refresh } from '@element-plus/icons-vue'
+import {
+  defineCrudColumns,
+  defineCrudMenuColumns,
+} from 'element-pro-components'
 import { useCrud, useCatesList } from '../../composables/index'
 import { Api } from '../../utils/index'
 import type { GoodsItem, GoodsForm, GoodsQuery } from '../../types/index'
@@ -107,7 +113,7 @@ const columns = ref(
     {
       label: '商品名称',
       prop: 'title',
-      component: markRaw(ElInput),
+      component: 'el-input',
       search: true,
       props: {
         clearable: true,
@@ -130,7 +136,7 @@ const columns = ref(
     {
       label: '分类',
       prop: 'cates',
-      component: markRaw(ProSelect),
+      component: 'pro-select',
       search: true,
       props: {
         data: catesList, // 这里不要通过 `catesList.value` 解构响应式数据

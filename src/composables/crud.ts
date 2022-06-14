@@ -1,13 +1,14 @@
+import { computed, ref, Ref, unref, watch } from 'vue'
 import { useGet, usePost, usePut, useDelete } from './index'
 import {
   appMessage,
   appConfirm,
+  backtop,
   replaceId,
   RequestPageKey,
   RequestLimitkey,
   RequestLimit,
 } from '../utils/index'
-import type { Ref } from 'vue'
 import type {
   ICrudSubmit,
   ICrudBeforeOpen,
@@ -246,6 +247,7 @@ export function useList<Item = StringObject, Serach = Item>({
     await execute()
 
     if (data.value) {
+      backtop()
       list.value = data.value.list
       total.value = data.value.total
     }

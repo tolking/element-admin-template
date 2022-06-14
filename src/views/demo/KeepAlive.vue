@@ -17,6 +17,7 @@ export default { name: 'KeepAlive' }
 </script>
 
 <script setup lang="ts">
+import { defineFormColumns } from 'element-pro-components'
 import { useForm } from '../../composables/index'
 import { Api } from '../../utils/index'
 import type { ArticleForm } from '../../types/article'
@@ -26,7 +27,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
     prop: 'title',
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: { required: true, message: '请输入标题', trigger: 'blur' },
     props: {
       clearable: true,
@@ -36,7 +37,7 @@ const columns = defineFormColumns<ArticleForm>([
   {
     label: '作者',
     prop: 'author',
-    component: markRaw(ElInput),
+    component: 'el-input',
     rules: { required: true, message: '请输入作者', trigger: 'blur' },
     props: {
       clearable: true,

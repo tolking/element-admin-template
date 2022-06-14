@@ -1,3 +1,4 @@
+import { createGlobalState, useStorage } from '@vueuse/core'
 import { GlobalStorageKey } from '../utils/index'
 import type { ResLogin } from '../types/index'
 

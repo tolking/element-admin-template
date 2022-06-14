@@ -1,7 +1,3 @@
-html.dark {
-  --el-fill-color-blank: var(--el-bg-color);
-}
-
 body,
 p {
   margin: 0;

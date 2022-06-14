@@ -23,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import { defineDescriptionsColumns } from 'element-pro-components'
 import { useDetail } from '../../composables/index'
 import { Api } from '../../utils/index'
 import type { ArticleItem } from '../../types/index'
