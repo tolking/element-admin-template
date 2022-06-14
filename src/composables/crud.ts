@@ -3,6 +3,7 @@ import { useGet, usePost, usePut, useDelete } from './index'
 import {
   appMessage,
   appConfirm,
+  backtop,
   replaceId,
   RequestPageKey,
   RequestLimitkey,
@@ -246,6 +247,7 @@ export function useList<Item = StringObject, Serach = Item>({
     await execute()
 
     if (data.value) {
+      backtop()
       list.value = data.value.list
       total.value = data.value.total
     }

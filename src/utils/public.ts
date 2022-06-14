@@ -1,3 +1,4 @@
+import { isClient } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type {
   MessageOptions,
@@ -96,4 +97,15 @@ export function createDownload(blob: Blob, name?: string): void {
   tempLink.click()
   document.body.removeChild(tempLink)
   window.URL.revokeObjectURL(blobURL)
+}
+
+/** 返回顶部 */
+export function backtop() {
+  if (isClient) {
+    window.scrollTo({
+      left: 0,
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
 }
