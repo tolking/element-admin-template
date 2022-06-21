@@ -66,7 +66,6 @@ export function useForm<Form = StringObject, Data = unknown>({
   const putForm = usePut<Data>(_url, payload)
   const submit: IFormSubmit = async (done, isValid) => {
     if (isValid) {
-      setPayload()
       const res = await submitForm()
 
       if (res.value) {
@@ -80,6 +79,7 @@ export function useForm<Form = StringObject, Data = unknown>({
   }
 
   async function submitForm(reqType = type) {
+    setPayload()
     isFetching.value = true
     if (unref(reqType) === 'post') {
       await postForm.execute()
