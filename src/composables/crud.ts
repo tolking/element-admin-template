@@ -1,4 +1,5 @@
 import { computed, ref, Ref, unref, watch } from 'vue'
+import { isFunction } from '@vueuse/core'
 import { useGet, usePost, usePut, useDelete } from './index'
 import {
   appMessage,
@@ -9,7 +10,7 @@ import {
   RequestLimitkey,
   RequestLimit,
 } from '../utils/index'
-import type {
+import {
   ICrudSubmit,
   ICrudBeforeOpen,
   IFormSubmit,
@@ -26,11 +27,11 @@ interface CommonConfig {
 
 export type ReqFormType = 'post' | 'put'
 
-export interface UseFormConfig<T> {
-  url: MaybeRef<string>
+export interface UseFormConfig<T, K> extends Omit<CommonConfig, 'immediate'> {
   showTip?: MaybeRef<boolean>
   type?: MaybeRef<ReqFormType>
   transform?: (form: T) => T
+  afterSubmit?: (res: K | null) => void
 }
 
 export interface UseFormReturn<T, K> {
@@ -46,18 +47,18 @@ export interface UseFormReturn<T, K> {
  * @param config.showTip 显示提示，默认: `true`
  * @param config.type 提交请求方式 post | put，默认: `post`
  * @param config.transform 转换表单
+ * @param config.afterSubmit 提交表单后执行的回调函数
  */
 export function useForm<Form = StringObject, Data = unknown>({
   url,
   transform,
   showTip = true,
   type = 'post',
-}: UseFormConfig<Form>): UseFormReturn<Form, Data> {
+  afterSubmit,
+}: UseFormConfig<Form, Data>): UseFormReturn<Form, Data> {
   const isFetching = ref(false)
   const form = ref({}) as Ref<Form>
-  const payload = computed(() => {
-    return transform ? transform(unref(form)) : form.value
-  })
+  const payload = ref({}) as Ref<Form>
   const _url = computed(() => {
     return replaceId(unref(url), (payload.value as { id?: string }).id)
   })
@@ -65,6 +66,7 @@ export function useForm<Form = StringObject, Data = unknown>({
   const putForm = usePut<Data>(_url, payload)
   const submit: IFormSubmit = async (done, isValid) => {
     if (isValid) {
+      setPayload()
       const res = await submitForm()
 
       if (res.value) {
@@ -72,6 +74,7 @@ export function useForm<Form = StringObject, Data = unknown>({
       } else if (res.value !== null) {
         unref(showTip) && appMessage('warning', '提交失败！')
       }
+      isFunction(afterSubmit) && afterSubmit(res.value)
     }
     done()
   }
@@ -87,6 +90,10 @@ export function useForm<Form = StringObject, Data = unknown>({
       isFetching.value = false
       return putForm.data
     }
+  }
+
+  function setPayload() {
+    payload.value = isFunction(transform) ? transform(unref(form)) : form.value
   }
 
   return {
@@ -221,15 +228,8 @@ export function useList<Item = StringObject, Serach = Item>({
   const page = ref(1)
   const limit = ref(RequestLimit)
   const total = ref(0)
-  const query = ref<Serach>({} as Serach) as Ref<Serach>
-  const payload = computed(() => {
-    const _query = transform ? transform(unref(query)) : query.value
-    return {
-      ..._query,
-      [RequestPageKey]: page.value,
-      [RequestLimitkey]: limit.value,
-    }
-  })
+  const query = ref({}) as Ref<Serach>
+  const payload = ref({}) as Ref<Serach>
   const { isFetching, data, execute } = useGet<PagesData<Item>>(url, payload)
   const list = ref<Item[]>([]) as Ref<Item[]>
   const search: IFormSubmit = async (done, isValid) => {
@@ -244,12 +244,23 @@ export function useList<Item = StringObject, Serach = Item>({
 
   async function loadList() {
     if (isFetching.value) return
+    setPayload()
     await execute()
 
     if (data.value) {
       backtop()
       list.value = data.value.list
       total.value = data.value.total
+    }
+  }
+
+  function setPayload() {
+    const _query = isFunction(transform) ? transform(unref(query)) : query.value
+
+    payload.value = {
+      ..._query,
+      [RequestPageKey]: page.value,
+      [RequestLimitkey]: limit.value,
     }
   }
 
@@ -265,9 +276,9 @@ export function useList<Item = StringObject, Serach = Item>({
   }
 }
 
-export interface UseCrudConfig<T, K, U>
+export interface UseCrudConfig<T, K, U, F>
   extends CommonConfig,
-    Pick<UseFormConfig<K>, 'showTip' | 'transform'> {
+    Pick<UseFormConfig<K, F>, 'showTip' | 'transform' | 'afterSubmit'> {
   syncDetail?: MaybeRef<boolean>
   transformQuery?: (form: U) => U
   transformDetail?: (form: T | K) => K
@@ -290,6 +301,7 @@ export interface UseCrudReturn<T, K, Q, M>
  * @param config.transform 转换表单
  * @param config.transformQuery 转换搜索
  * @param config.transformDetail 转换详情到表单
+ * @param config.afterSubmit 提交表单后执行的回调函数
  */
 export function useCrud<
   Item = StringObject,
@@ -304,7 +316,13 @@ export function useCrud<
   transform,
   transformQuery,
   transformDetail,
-}: UseCrudConfig<Item, Form, Serach>): UseCrudReturn<Item, Form, Serach, Data> {
+  afterSubmit,
+}: UseCrudConfig<Item, Form, Serach, Data>): UseCrudReturn<
+  Item,
+  Form,
+  Serach,
+  Data
+> {
   const listCore = useList<Item, Serach>({
     url,
     immediate,
@@ -329,7 +347,9 @@ export function useCrud<
         }
       }
 
-      form.value = transformDetail ? transformDetail(value) : (value as Form)
+      form.value = isFunction(transformDetail)
+        ? transformDetail(value)
+        : (value as Form)
     }
     done()
   }
@@ -344,6 +364,7 @@ export function useCrud<
       } else if (res.value !== null) {
         showTip && appMessage('warning', '提交失败！')
       }
+      isFunction(afterSubmit) && afterSubmit(res.value)
     }
     done()
   }
