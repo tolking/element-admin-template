@@ -15,14 +15,14 @@
       layout="total, ->, jumper, prev, pager, next, sizes"
       @load="loadList"
     >
-      <template #avatar="{ row }">
+      <template #table-avatar="{ row }">
         <el-image
           style="width: 60px; height: 60px"
           :src="row.avatar"
           fit="scale-down"
         />
       </template>
-      <template #status="{ row, size }">
+      <template #table-status="{ row, size }">
         <el-tag
           :type="row.status ? 'success' : 'danger'"
           :size="size"
