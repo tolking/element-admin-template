@@ -2,7 +2,7 @@ import { isClient } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type {
   MessageOptions,
-  MessageHandle,
+  MessageHandler,
   ElMessageBoxOptions,
   MessageBoxData,
 } from 'element-plus'
@@ -19,7 +19,7 @@ export function appMessage(
   type: MessageOptions['type'],
   message: MessageOptions['message'],
   option = {} as MessageOptions
-): MessageHandle {
+): MessageHandler {
   return ElMessage(Object.assign(option, { type, message }))
 }
 

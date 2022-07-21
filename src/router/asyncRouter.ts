@@ -96,7 +96,7 @@ router.beforeEach((to, form, next) => {
     // 获取路由 -> 转化 -> addRoute
     generateRoutes(asyncRoutes).forEach((item) => {
       router.addRoute(item)
-      router.options.routes.push(item)
+      ;(router.options.routes as RouteRecordRaw[]).push(item)
     })
     initRoute = true
     next({ ...to, replace: true })
@@ -118,7 +118,7 @@ function generateRoutes(list: Router[]): RouteRecordRaw[] {
       ? generateRoutes(item.children)
       : undefined
 
-    const current: RouteRecordRaw = {
+    const current = {
       path: item.path,
       redirect: item.redirect,
       name: item.name,
@@ -129,7 +129,7 @@ function generateRoutes(list: Router[]): RouteRecordRaw[] {
         icon: item.icon,
         hide: item.hide,
       },
-    }
+    } as RouteRecordRaw
 
     return [...all, current]
   }, [] as RouteRecordRaw[])
