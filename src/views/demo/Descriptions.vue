@@ -8,7 +8,7 @@
       :detail="detail || {}"
       :column="2"
     >
-      <template #tag="{ item, size }">
+      <template #detail-tag="{ item, size }">
         <el-tag
           v-for="(e, i) in item.tag"
           :key="i"
