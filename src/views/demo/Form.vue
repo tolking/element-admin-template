@@ -17,11 +17,6 @@ import { Api } from '../../utils/index'
 import RichEditor from '../../components/RichEditor.vue'
 import type { ArticleForm } from '../../types/article'
 
-import { useLocale } from 'element-plus'
-const { t } = useLocale()
-console.log(t('pro.form.submit'))
-console.log(t('pro.crud.submit'))
-
 const { form, submit } = useForm<ArticleForm>({ url: Api.article })
 const columns = defineFormColumns<ArticleForm>([
   {
