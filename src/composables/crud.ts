@@ -350,6 +350,8 @@ export function useCrud<
       form.value = isFunction(transformDetail)
         ? transformDetail(value)
         : (value as Form)
+    } else {
+      form.value = {} as Form
     }
     done()
   }
