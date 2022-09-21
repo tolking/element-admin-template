@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useGlobalState } from '../composables/index'
 import { AllowList } from '../utils/index'
 
@@ -79,7 +79,8 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // NOTE: 路由历史模式 [参考](https://router.vuejs.org/zh/api/#history)
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 })
 
@@ -118,11 +119,12 @@ function generateRoutes(list: Router[]): RouteRecordRaw[] {
       ? generateRoutes(item.children)
       : undefined
 
+    const modules = import.meta.glob('./**.vue')
     const current = {
       path: item.path,
       redirect: item.redirect,
       name: item.name,
-      component: () => import(`../${item.component}`),
+      component: modules[`../${item.component}`],
       children,
       meta: {
         title: item.title,

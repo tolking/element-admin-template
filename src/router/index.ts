@@ -1,5 +1,5 @@
 import { markRaw } from 'vue'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { House } from '@element-plus/icons-vue'
 import { useGlobalState } from '../composables/index'
 import { AllowList } from '../utils/index'
@@ -61,7 +61,8 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // NOTE: 路由历史模式 [参考](https://router.vuejs.org/zh/api/#history)
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 })
 
