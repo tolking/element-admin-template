@@ -79,6 +79,7 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
+  // NOTE: 路由历史模式 [参考](https://router.vuejs.org/zh/api/#history)
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 })
