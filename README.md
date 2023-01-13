@@ -1,4 +1,4 @@
-# element-admin-template (相关示例正在快速开发中)
+# element-admin-template
 
 > 一个基础的后台管理系统模版，方便快速开发
 
@@ -17,6 +17,7 @@
 - [vue-tsc](https://github.com/johnsoncodehk/volar) 提供类型检查
 - [typescript](https://github.com/Microsoft/TypeScript) 全局基于 TypeScript 开发
 - [eslint](https://github.com/eslint/eslint) [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint) [prettier](https://github.com/prettier/prettier) 提供代码检查或格式化
+- [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import) [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 提供组件及函数的自动引入
 - [husky](https://github.com/typicode/husky) [lint-staged](https://github.com/okonet/lint-staged) 在 git 提交前格式化代码
 - ...
 
@@ -80,6 +81,7 @@ npm run dev
 - 项目示例是基于 TypeScript 和 Vue 3 的 setup 语法糖，你可以不使用 TypeScript，但 setup 语法糖是非常推荐的。项目中提供大量的可组合函数供在 setup 中使用。
 - 项目默认会在 git 提交前进行格式化，如果想取消请移除 `husky` `lint-staged`，并删除 `.husky` 文件夹
 - 如果不需要格式化请移除 `@typescript-eslint/eslint-plugin` `@typescript-eslint/parser` `eslint` `eslint-plugin-prettier` `eslint-plugin-vue` `prettier`，并删除 `.eslintrc.js` `.prettierrc` 文件
+- 文件 `.eslintrc-auto-import.json` `auto-imports.d.ts` `components.d.ts` 是插件自动生成的。删除代码可能无法通过测试，请确保输出的内容已经不在项目中使用。
 - 项目打包时会强制进行类型检查，修改 `package.json` 中 `scripts` 即可
 
 ```diff
@@ -98,6 +100,10 @@ const { data, execute } = uesPost(url, form)
 // 通过 execute 触发提交
 execute()
 ```
+
+- `vue` `vue-router` `@vueuse/core` `element-plus` `element-pro-components` 会自动引入
+- 自定义组件禁止使用 `el` `pro` 开头，可能会触发错误
+- 使用 `ElIcon` 开头的组件将会代理到 `@element-plus/icons-vue`
 
 ## 开发流程
 

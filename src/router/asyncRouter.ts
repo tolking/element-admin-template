@@ -1,6 +1,4 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { useGlobalState } from '../composables/index'
-import { AllowList } from '../utils/index'
 
 interface Router {
   path: string

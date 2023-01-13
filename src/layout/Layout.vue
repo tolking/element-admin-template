@@ -39,7 +39,7 @@
             class="avatar"
           />
           {{ state.name }}
-          <arrow-down class="el-icon-arrow-down el-icon--right" />
+          <el-icon-arrow-down class="el-icon-arrow-down el-icon--right" />
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -57,12 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useDark, useTitle, useToggle } from '@vueuse/core'
-import { ArrowDown } from '@element-plus/icons-vue'
-import { useGlobalState } from '../composables/index'
-
 const route = useRoute()
 const router = useRouter()
 const state = useGlobalState()

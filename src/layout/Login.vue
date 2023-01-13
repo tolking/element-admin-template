@@ -17,52 +17,43 @@
 </template>
 
 <script setup lang="ts">
-import { markRaw, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { useDark, useMagicKeys, useTitle } from '@vueuse/core'
-import { Lock, User } from '@element-plus/icons-vue'
-import {
-  defineFormColumns,
-  defineFormMenuColumns,
-  defineFormSubmit,
-  IFormExpose,
-} from 'element-pro-components'
-import { useGlobalState, useForm } from '../composables/index'
-import { Api } from '../utils/index'
+import type { IFormExpose } from 'element-pro-components'
 import type { LoginForm, ResLogin } from '../types/index'
 
 const router = useRouter()
 const state = useGlobalState()
 const { enter } = useMagicKeys()
 const { form, submitForm } = useForm<LoginForm, ResLogin>({ url: Api.login })
+
 const login = ref({} as IFormExpose)
+
 const columns = defineFormColumns<LoginForm>([
   {
     label: '用户',
     prop: 'name',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: { required: true, message: '请输入用户名', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
-      prefixIcon: markRaw(User),
+      prefixIcon: markRaw(ElIconUser),
       placeholder: '请输入用户名',
-    },
+    }),
   },
   {
     label: '密码',
     prop: 'password',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: [
       { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 5, max: 16, message: '长度 5 到 16 个字符', trigger: 'blur' },
     ],
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       type: 'password',
       clearable: true,
       showPassword: true,
-      prefixIcon: markRaw(Lock),
+      prefixIcon: markRaw(ElIconLock),
       placeholder: '请输入密码',
-    },
+    }),
   },
 ])
 const menu = defineFormMenuColumns({

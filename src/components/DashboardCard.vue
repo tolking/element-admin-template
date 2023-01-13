@@ -8,14 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRefs } from 'vue'
-import { TransitionPresets, useTransition } from '@vueuse/core'
+import { TransitionPresets } from '@vueuse/core'
 
 const props = defineProps<{
   title: string
   info: number
 }>()
-const { title, info } = toRefs(props)
+
 const source = ref(0)
 const number = useTransition(source, {
   duration: 800,
@@ -23,7 +22,7 @@ const number = useTransition(source, {
 })
 
 onMounted(() => {
-  source.value = info.value
+  source.value = props.info
 })
 </script>
 

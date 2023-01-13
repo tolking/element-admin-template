@@ -10,45 +10,41 @@
 </template>
 
 <script setup lang="ts">
-import { markRaw } from 'vue'
-import { defineFormColumns } from 'element-pro-components'
-import { useForm } from '../../composables/index'
-import { Api } from '../../utils/index'
-import RichEditor from '../../components/RichEditor.vue'
 import type { ArticleForm } from '../../types/article'
 
 const { form, submit } = useForm<ArticleForm>({ url: Api.article })
+
 const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
     prop: 'title',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: { required: true, message: '请输入标题', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入标题',
-    },
+    }),
   },
   {
     label: '作者',
     prop: 'author',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: { required: true, message: '请输入作者', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入作者',
-    },
+    }),
   },
   {
     label: '标签',
     prop: 'tag',
-    component: 'pro-input-tag',
+    component: markRaw(ProInputTag),
     rules: { required: true, message: '请输入标签', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ProInputTag>({
       clearable: true,
       trigger: 'enter',
       placeholder: '通过 Enter 键触发输入',
-    },
+    }),
   },
   {
     label: '内容',

@@ -14,11 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { defineFormColumns } from 'element-pro-components'
-import { useForm, useDetail, useCatesList } from '../../composables/index'
-import { Api } from '../../utils/index'
 import type { GoodsForm } from '../../types/index'
 
 const route = useRoute()
@@ -41,55 +36,55 @@ const columns = ref(
     {
       label: '商品名称',
       prop: 'title',
-      component: 'el-input',
+      component: markRaw(ElInput),
       rules: { required: true, message: '请输入商品名称', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         clearable: true,
         placeholder: '请输入商品名称',
-      },
+      }),
     },
     {
       label: '价格',
       prop: 'price',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
       rules: { required: true, message: '请输入价格', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入价格',
         slots: { suffix: () => '元' },
-      },
+      }),
     },
     {
       label: '成本',
       prop: 'cost',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入成本',
         slots: { suffix: () => '元' },
-      },
+      }),
     },
     {
       label: '库存',
       prop: 'stock',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
       rules: { required: true, message: '请输入库存', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入库存',
         slots: { suffix: () => '件' },
-      },
+      }),
     },
     {
       label: '分类',
       prop: 'cates',
-      component: 'pro-select',
+      component: markRaw(ProSelect),
       md: 12,
       rules: { required: true, message: '请选择分类', trigger: 'blur' },
       props: {
@@ -102,22 +97,22 @@ const columns = ref(
     {
       label: '标签',
       prop: 'tags',
-      component: 'pro-input-tag',
+      component: markRaw(ProInputTag),
       md: 12,
       rules: { required: true, message: '请输入标签', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ProInputTag>({
         clearable: true,
         max: 10,
         placeholder: '通过 Enter 键触发输入',
-      },
+      }),
     },
     {
       label: '上架时间',
       prop: 'time',
-      component: 'el-date-picker',
+      component: markRaw(ElDatePicker),
       md: 12,
       rules: { required: true, message: '请选择上架时间段', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ElDatePicker>({
         clearable: true,
         unlinkPanels: true,
         type: 'daterange',
@@ -127,20 +122,20 @@ const columns = ref(
         startPlaceholder: '开始日期',
         endPlaceholder: '结束日期',
         style: 'width:100%',
-      },
+      }),
     },
     {
       label: '描述',
       prop: 'desc',
-      component: 'el-input',
+      component: markRaw(ElInput),
       rules: { required: true, message: '请输入描述', trigger: 'blur' },
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'textarea',
         clearable: true,
         autosize: true,
         showWordLimit: true,
         placeholder: '请输入描述',
-      },
+      }),
     },
     {
       label: '规格信息',
@@ -150,50 +145,50 @@ const columns = ref(
     {
       label: '长',
       prop: 'length',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入长',
         slots: { suffix: () => 'cm' },
-      },
+      }),
     },
     {
       label: '宽',
       prop: 'width',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入宽',
         slots: { suffix: () => 'cm' },
-      },
+      }),
     },
     {
       label: '高',
       prop: 'height',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入高',
         slots: { suffix: () => 'cm' },
-      },
+      }),
     },
     {
       label: '重量',
       prop: 'weight',
-      component: 'el-input',
+      component: markRaw(ElInput),
       md: 12,
-      props: {
+      props: defineComponentProps<typeof ElInput>({
         type: 'number',
         clearable: true,
         placeholder: '请输入重量',
         slots: { suffix: () => 'kg' },
-      },
+      }),
     },
     {
       label: '配置信息',
@@ -203,24 +198,24 @@ const columns = ref(
         {
           label: '属性',
           prop: 'key',
-          component: 'el-input',
+          component: markRaw(ElInput),
           md: 8,
           rules: { required: true, message: '请输入商品名称', trigger: 'blur' },
-          props: {
+          props: defineComponentProps<typeof ElInput>({
             clearable: true,
             placeholder: '请输入商品名称',
-          },
+          }),
         },
         {
           label: '可选值',
           prop: 'value',
-          component: 'pro-input-tag',
+          component: markRaw(ProInputTag),
           md: 16,
           rules: { required: true, message: '请输入可选值', trigger: 'blur' },
-          props: {
+          props: defineComponentProps<typeof ProInputTag>({
             clearable: true,
             placeholder: '通过 Enter 键触发输入',
-          },
+          }),
         },
       ],
     },

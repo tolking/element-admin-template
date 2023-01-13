@@ -45,12 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  defineTableColumns,
-  defineTableMenuColumns,
-} from 'element-pro-components'
-import { useList, useForm } from '../../composables/index'
-import { Api, appMessage } from '../../utils/index'
 import type { UserItem } from '../../types/index'
 
 const { isFetching, page, limit, total, list, loadList } = useList({
@@ -61,6 +55,7 @@ const {
   form,
   submitForm,
 } = useForm({ url: Api.userStatus, type: 'put' })
+
 const menu = defineTableMenuColumns({ label: '操作' })
 const columns = defineTableColumns<UserItem>([
   {

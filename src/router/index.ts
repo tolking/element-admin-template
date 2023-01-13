@@ -1,8 +1,4 @@
-import { markRaw } from 'vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { House } from '@element-plus/icons-vue'
-import { useGlobalState } from '../composables/index'
-import { AllowList } from '../utils/index'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     redirect: '/demo',
     component: () => import('../layout/Layout.vue'),
-    meta: { title: 'Demo', icon: markRaw(House) },
+    meta: { title: 'Demo', icon: markRaw(ElIconHouse) },
     children: [
       {
         path: '/demo',
