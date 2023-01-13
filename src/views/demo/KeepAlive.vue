@@ -17,32 +17,30 @@ export default { name: 'KeepAlive' }
 </script>
 
 <script setup lang="ts">
-import { defineFormColumns } from 'element-pro-components'
-import { useForm } from '../../composables/index'
-import { Api } from '../../utils/index'
 import type { ArticleForm } from '../../types/article'
 
 const { form, submit } = useForm<ArticleForm>({ url: Api.form })
+
 const columns = defineFormColumns<ArticleForm>([
   {
     label: '标题',
     prop: 'title',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: { required: true, message: '请输入标题', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入标题',
-    },
+    }),
   },
   {
     label: '作者',
     prop: 'author',
-    component: 'el-input',
+    component: markRaw(ElInput),
     rules: { required: true, message: '请输入作者', trigger: 'blur' },
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入作者',
-    },
+    }),
   },
 ])
 </script>

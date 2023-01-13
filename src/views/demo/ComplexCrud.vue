@@ -70,15 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { Refresh } from '@element-plus/icons-vue'
-import {
-  defineCrudColumns,
-  defineCrudMenuColumns,
-} from 'element-pro-components'
-import { useCrud, useCatesList } from '../../composables/index'
-import { Api } from '../../utils/index'
 import type { GoodsItem, GoodsForm, GoodsQuery } from '../../types/index'
 
 const {
@@ -95,6 +87,7 @@ const {
 } = useCrud<GoodsItem, GoodsForm, GoodsQuery>({ url: Api.goods })
 const router = useRouter()
 const catesList = useCatesList()
+
 const menu = defineCrudMenuColumns({
   label: '操作',
   add: false,
@@ -113,7 +106,7 @@ const columns = ref(
     {
       label: '商品名称',
       prop: 'title',
-      component: 'el-input',
+      component: markRaw(ElInput),
       search: true,
       props: {
         clearable: true,
@@ -136,7 +129,7 @@ const columns = ref(
     {
       label: '分类',
       prop: 'cates',
-      component: 'pro-select',
+      component: markRaw(ProSelect),
       search: true,
       props: {
         data: catesList, // 这里不要通过 `catesList.value` 解构响应式数据

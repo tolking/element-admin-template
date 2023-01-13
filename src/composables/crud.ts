@@ -1,22 +1,12 @@
-import { computed, ref, Ref, unref, watch } from 'vue'
 import { isFunction } from '@vueuse/core'
-import { useGet, usePost, usePut, useDelete } from './index'
-import {
-  appMessage,
-  appConfirm,
-  backtop,
-  replaceId,
-  RequestPageKey,
-  RequestLimitkey,
-  RequestLimit,
-} from '../utils/index'
-import {
+import type { Ref } from 'vue'
+import type { MaybeRef } from '@vueuse/core'
+import type {
   ICrudSubmit,
   ICrudBeforeOpen,
   IFormSubmit,
   StringObject,
   UnknownObject,
-  MaybeRef,
 } from 'element-pro-components'
 import type { PagesData } from '../types/index'
 

@@ -23,14 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineDescriptionsColumns } from 'element-pro-components'
-import { useDetail } from '../../composables/index'
-import { Api } from '../../utils/index'
 import type { ArticleItem } from '../../types/index'
 
 const { isFetching, detailId, detail } = useDetail<ArticleItem>({
   url: Api.article,
 })
+
 const columns = defineDescriptionsColumns<ArticleItem>([
   {
     label: '标题',

@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
 import Quill from 'quill'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.bubble.css'
@@ -20,16 +19,19 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue'])
-const { modelValue, placeholder } = toRefs(props)
+
 const editor = ref<HTMLElement>({} as HTMLElement)
 const quill = ref<Quill>({} as Quill)
 const isEdit = ref(false)
 
-watch(modelValue, (val) => {
-  if (val !== quill.value.root.innerHTML && !quill.value.hasFocus()) {
-    quill.value.root.innerHTML = val
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val !== quill.value.root.innerHTML && !quill.value.hasFocus()) {
+      quill.value.root.innerHTML = val
+    }
   }
-})
+)
 
 onMounted(() => {
   init()
@@ -42,7 +44,7 @@ onUnmounted(() => {
 function init() {
   quill.value = new Quill(editor.value, {
     theme: 'snow',
-    placeholder: placeholder.value,
+    placeholder: props.placeholder,
     modules: {
       toolbar: [
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -63,7 +65,7 @@ function init() {
     },
   })
 
-  if (!isEdit.value && modelValue?.value) {
+  if (!isEdit.value && props.modelValue) {
     quill.value.root.innerHTML = props.modelValue || ''
   }
 

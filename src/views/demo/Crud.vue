@@ -50,14 +50,6 @@
 </template>
 
 <script setup lang="ts">
-import { markRaw } from 'vue'
-import {
-  defineCrudColumns,
-  defineCrudMenuColumns,
-} from 'element-pro-components'
-import { useCrud } from '../../composables/index'
-import { Api } from '../../utils/index'
-import RichEditor from '../../components/RichEditor.vue'
 import type { ArticleItem, ArticleForm, ArticleQuery } from '../../types/index'
 
 const {
@@ -74,6 +66,7 @@ const {
   submit,
   deleteRow,
 } = useCrud<ArticleItem, ArticleForm, ArticleQuery>({ url: Api.article })
+
 const menu = defineCrudMenuColumns({ label: '操作' })
 const columns = defineCrudColumns<ArticleItem>([
   {
@@ -83,38 +76,38 @@ const columns = defineCrudColumns<ArticleItem>([
   {
     label: '标题',
     prop: 'title',
-    component: 'el-input',
+    component: markRaw(ElInput),
     search: true,
     form: true,
     detail: true,
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入标题',
-    },
+    }),
   },
   {
     label: '作者',
     prop: 'author',
-    component: 'el-input',
+    component: markRaw(ElInput),
     search: true,
     form: true,
     detail: true,
-    props: {
+    props: defineComponentProps<typeof ElInput>({
       clearable: true,
       placeholder: '请输入作者',
-    },
+    }),
   },
   {
     label: '标签',
     prop: 'tag',
-    component: 'pro-input-tag',
+    component: ProInputTag,
     form: true,
     detail: true,
-    props: {
+    props: defineComponentProps<typeof ProInputTag>({
       clearable: true,
       trigger: 'enter',
       placeholder: '请输入标签',
-    },
+    }),
   },
   {
     label: '内容',

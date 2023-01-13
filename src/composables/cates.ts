@@ -1,7 +1,3 @@
-import { useStorage } from '@vueuse/core'
-import { useGet } from './index'
-import { Api } from '../utils/index'
-
 interface CatesItem {
   label: string
   value: string
