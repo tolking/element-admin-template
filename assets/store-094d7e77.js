@@ -1,1 +1,0 @@
-import{v as t,w as e}from"./modules-vueuse-9b2c2f8a.js";const a="App_Storage",o=3e4,i="page",l="limit",n=20,c=["/login"],r=t(()=>e(a,{token:"",name:"",avatar:""}));export{c as A,o as R,n as a,i as b,l as c,r as u};
