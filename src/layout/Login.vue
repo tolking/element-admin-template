@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <div class="login-bg" />
     <el-card class="login-content">
       <h1 class="title">
         管理后台
@@ -20,6 +21,7 @@
 import type { IFormExpose } from 'element-pro-components'
 import type { LoginForm, ResLogin } from '../types/index'
 
+const route = useRoute()
 const router = useRouter()
 const state = useGlobalState()
 const { enter } = useMagicKeys()
@@ -81,36 +83,53 @@ async function handleSubmit(isValid: boolean) {
 
     if (res.value) {
       state.value = res.value
-      router.push('/')
+      router.push((route.query.redirect as string) || '/')
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  --s-filter: 6px;
+  position: relative;
   width: 100%;
   height: 100vh;
-  background-color: var(--c-page-background);
-  background-image: url('https://api.ixiaowai.cn/gqapi/gqapi.php');
+  overflow: hidden;
+}
+.login .login-bg {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--s-filter) * -2);
+  bottom: calc(var(--s-filter) * -2);
+  left: calc(var(--s-filter) * -2);
+  right: calc(var(--s-filter) * -2);
+  background-color: var(--el-bg-color);
+  background-image: url('https://picsum.photos/1920/1080?random');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  filter: blur(var(--s-filter)) saturate(80%);
+  will-change: background-image;
+  transition: var(--el-transition-all);
 }
 .login .login-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  flex: none;
   width: 500px;
   max-width: 90%;
+  transform: translate(-50%, -50%);
 }
 .login .login-content .title {
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
 }
-.login .login-content .pro-form-menu,
-.login .login-content .pro-form-menu .el-form-item__content .el-button {
+.login .login-content :deep(.pro-form-menu),
+.login .login-content :deep(.pro-form-menu .el-form-item__content .el-button) {
   width: 100%;
 }
 </style>
