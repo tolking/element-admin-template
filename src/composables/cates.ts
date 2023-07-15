@@ -8,7 +8,9 @@ export function useCatesList() {
   const list = useStorage<CatesItem[]>('CatesList', [])
   const { data, execute } = useGet<{ list: CatesItem[] }>(Api.cates)
 
-  !list.value?.length && loadList()
+  tryOnMounted(() => {
+    !list.value?.length && loadList()
+  })
 
   async function loadList() {
     await execute()
