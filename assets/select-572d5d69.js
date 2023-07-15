@@ -1,0 +1,1 @@
+import{x as o,D as u}from"./modules-vueuse-b11b28df.js";import{c as n,A as c}from"./api-57caebfc.js";function f(){const s=o("CatesList",[]),{data:e,execute:a}=n(c.cates);u(()=>{var t;!((t=s.value)!=null&&t.length)&&i()});async function i(){var t;await a(),(t=e.value)!=null&&t.list&&(s.value=e.value.list)}return s}export{f as u};
