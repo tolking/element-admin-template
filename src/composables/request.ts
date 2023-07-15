@@ -2,13 +2,16 @@ import { stringifyQuery, LocationQueryRaw } from 'vue-router'
 import { createFetch, isObject, MaybeRef, UseFetchReturn } from '@vueuse/core'
 import router from '../router/index'
 
+// 登陆是否已经过期
+let isExpiration = false
 const baseUrl = import.meta.env.VITE_BASE_URL
 const useRequest = createFetch({
   baseUrl,
   options: {
     immediate: false,
     timeout: RequestTimeout,
-    beforeFetch({ options }) {
+    beforeFetch({ options, cancel }) {
+      if (isExpiration) return cancel()
       const state = useGlobalState()
 
       // NOTE: 在线 mock api 使用，你不需要下面这段
@@ -38,9 +41,12 @@ const useRequest = createFetch({
           name: '',
           avatar: '',
         }
-        appMessage('warning', '登陆已经过期')
+        !isExpiration && appMessage('warning', '登录已经过期')
+        isExpiration = true
         setTimeout(() => {
-          router.push('/login')
+          router
+            .replace(`/login?redirect=${router.currentRoute.value.path}`)
+            .then(() => location.reload())
         }, 1500)
         data = null
       } else if (status === 1000) {
@@ -75,7 +81,7 @@ const useRequest = createFetch({
  */
 export function useGet<T = unknown>(
   url: MaybeRef<string>,
-  query?: MaybeRef<unknown>
+  query?: MaybeRef<unknown>,
 ): UseFetchReturn<T> {
   const _url = computed(() => {
     const _url = unref(url)
@@ -96,7 +102,7 @@ export function useGet<T = unknown>(
  */
 export function usePost<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
+  payload?: MaybeRef<unknown>,
 ): UseFetchReturn<T> {
   return useRequest<T>(url).post(payload).json()
 }
@@ -108,7 +114,7 @@ export function usePost<T = unknown>(
  */
 export function usePut<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
+  payload?: MaybeRef<unknown>,
 ): UseFetchReturn<T> {
   return useRequest<T>(url).put(payload).json()
 }
@@ -120,7 +126,7 @@ export function usePut<T = unknown>(
  */
 export function useDelete<T = unknown>(
   url: MaybeRef<string>,
-  payload?: MaybeRef<unknown>
+  payload?: MaybeRef<unknown>,
 ): UseFetchReturn<T> {
   return useRequest<T>(url).delete(payload).json()
 }
