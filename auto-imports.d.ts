@@ -7,6 +7,8 @@ declare global {
   const EffectScope: (typeof import('vue'))['EffectScope']
   const ElDatePicker: (typeof import('element-plus/es'))['ElDatePicker']
   const ElIconHouse: (typeof import('@element-plus/icons-vue'))['House']
+  const ElIconLock: (typeof import('@element-plus/icons-vue'))['Lock']
+  const ElIconUser: (typeof import('@element-plus/icons-vue'))['User']
   const ElInput: (typeof import('element-plus/es'))['ElInput']
   const ElMessage: (typeof import('element-plus/es'))['ElMessage']
   const ElMessageBox: (typeof import('element-plus/es'))['ElMessageBox']
