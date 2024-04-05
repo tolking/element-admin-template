@@ -1,6 +1,6 @@
-import type { Ref } from 'vue'
+import type { Ref, MaybeRef } from 'vue'
 import type { UseFetchReturn } from '@vueuse/core'
-import type { UnknownObject, MaybeRef } from 'element-pro-components'
+import type { UnknownObject } from 'element-pro-components'
 
 export interface UseDetailConfig {
   url: MaybeRef<string>

@@ -1,6 +1,5 @@
-import type { Ref } from 'vue'
+import type { Ref, MaybeRef } from 'vue'
 import type { UseFetchReturn } from '@vueuse/core'
-import type { MaybeRef } from 'element-pro-components'
 import type { UseDetailConfig } from './detail'
 
 export interface UseRemoveConfig extends UseDetailConfig {
