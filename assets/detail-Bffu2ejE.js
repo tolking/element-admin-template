@@ -1,0 +1,1 @@
+import{r as l,c as f}from"./api-P98th4it.js";import{r as m,c as p,u as r,w as v}from"./modules-vue-By89M0U-.js";function h({url:s,immediate:u=!0}){const a=m(void 0),i=p(()=>l(r(s),a.value)),{isFetching:e,data:o,execute:c,...n}=f(i);r(u)&&v(a,d=>{d!==void 0&&t()});async function t(){e.value||await c()}return{...n,isFetching:e,detailId:a,detail:o,loadDetail:t}}export{h as u};

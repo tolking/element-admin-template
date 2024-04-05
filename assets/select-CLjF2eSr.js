@@ -1,0 +1,1 @@
+import{k as u,v as o}from"./modules-vueuse-Btdjl5qo.js";import{c as n,A as l}from"./api-P98th4it.js";function f(){const s=u("CatesList",[]),{data:a,execute:e}=n(l.cates);o(()=>{var t;!((t=s.value)!=null&&t.length)&&i()});async function i(){var t;await e(),(t=a.value)!=null&&t.list&&(s.value=a.value.list)}return s}export{f as u};
