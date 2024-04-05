@@ -6,8 +6,6 @@
     "EffectScope": true,
     "ElDatePicker": true,
     "ElIconHouse": true,
-    "ElIconLock": true,
-    "ElIconUser": true,
     "ElInput": true,
     "ElMessage": true,
     "ElMessageBox": true,

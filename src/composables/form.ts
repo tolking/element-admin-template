@@ -1,11 +1,7 @@
 import { isFunction } from 'element-pro-components'
-import type { Ref } from 'vue'
+import type { Ref, MaybeRef } from 'vue'
 import type { UseFetchReturn } from '@vueuse/core'
-import type {
-  IFormSubmit,
-  StringObject,
-  MaybeRef,
-} from 'element-pro-components'
+import type { IFormSubmit, StringObject } from 'element-pro-components'
 
 export type ReqFormType = 'post' | 'put'
 
